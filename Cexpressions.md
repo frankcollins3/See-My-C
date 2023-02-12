@@ -54,3 +54,89 @@ int main() {
 }
 
 <scanf/>
+
+
+<Loop>
+
+*** 1) loop example ***
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+    char str[] = "Live Your Life";
+    int i, j = 0;  
+ <!-- *  Traversing the Character array -->
+    for (i = 0; i < strlen(str); i++) {  
+ <!-- To store first character of String if it is not a whitespace. -->
+        if (i == 0 && str[i] != ' ') {
+          printf("%c ", str[i]);
+        } 
+ <!-- To check whether Character is first character of word and if yes store it.  && str[i - 1] == ' ') whitespace checking code. -->
+        else if (i > 0 && str[i - 1] == ' ') {
+            printf("%c ", str[i]);
+        }
+    }
+    return 0;
+}
+***  end of loop example 1 ***
+* * * * * * * * * * * * * * * * * * * * * * * *
+
+
+*** 2) loop example ***
+#include <stdio.h>
+#include <string.h>
+
+char myletter = 'o';
+
+
+int countO(char *str) {
+  int count = 0;
+  int length = strlen(str);
+  for (int i = 0; i < length; i++) {
+    if (str[i] == myletter) {
+      count++;
+    }
+  }
+  return count;
+}
+
+int main() {
+  char str[] = "go for gold";
+  int number_of_o = countO(str);
+printf("%c appears in %s %d\t", myletter, str, number_of_o);
+}
+
+
+***  end of loop example 2 ***
+* * * * * * * * * * * * * * * * * * * * * * * *
+
+*** loop example 3 ***
+#include <stdio.h>
+#include <string.h>
+
+  int main () {
+    int c_count = 0;
+    char me[20] = "wow thats Cool";
+    for (int i = 0; i < strlen(me); i++) {
+        if (me[i] == 'C') {
+            //  printf("hey found a C");
+            c_count++;
+        } else {
+            
+        }
+    }
+    printf("also found that c appears %d many times in: %s", c_count, me);
+    return 0;
+}
+
+*** loop example 3 ***
+
+
+
+
+
+<c--------loopexampleEND**********/>
+
+
+
+
