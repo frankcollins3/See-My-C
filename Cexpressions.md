@@ -146,7 +146,7 @@ int *a = &b;  // pointer a (is set to) address of b
 //  printf("&b:\t %p\n", &b);  // print memory address of b
 //  printf("a:\t %p", a);  // print memory address of A.
 
-//int *sexmemory = &sex;
+//int *hexmemory = hex;
 int lotto = 777;
 int *gamble = &lotto;
 char fullOfCrap[100] = "Youre full of %[^/n]s";
@@ -175,5 +175,26 @@ printf("I cant remember the last time I %p\n", gamble);
 }
 
 
+<pointer>
+
+*** int ***
+int main () {
+int b = 42;  
+int *a = &b;  // pointer a (is set to) address of b 
+  printf("b:\t %d\n", b);  // print value of b
+  printf("&b:\t %p\n", &b);  // print memory address of b
+#   printf("a:\t %p", a);  // print memory address of A.
+  return 0;
+}
+*** end of int ***
+
+*** char ***
+printf("type some values please:\n");
+  scanf("%[^\n]s", sentence);
+  char *charpointer;
+  charpointer = sentence;
+  printf("memory: %p", charpointer);
+*** end of charp ***
 
 
+<pointer>
