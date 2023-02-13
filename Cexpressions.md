@@ -198,3 +198,41 @@ printf("type some values please:\n");
 
 
 <pointer>
+   
+   
+#include <stdio.h>
+#include <string.h>
+
+struct Burgers {
+char burger[50]; // whopper, bigmac, davetriple,
+char sides[50]; // chicken fries, fries, chicken nugs,
+char shakes[50];
+};
+
+<struct>
+#include <stdio.h>
+#include <string.h>
+
+struct Burgers {
+char burger[50]; // whopper, bigmac, davetriple,
+char sides[50]; // chicken fries, fries, chicken nugs,
+char shakes[50];
+};
+
+   
+int main() {  
+  struct Burgers myBurgers;
+
+  strcpy(myBurgers.burger, "whpper");
+  strcpy(myBurgers.sides, "chicken fries");
+  strcpy(myBurgers.shakes, "classic vanilla");
+
+  printf("My Favorite Burger King Order! \n");
+  printf("BurgerKingMan: %s\n", myBurgers.burger);
+  printf("Sides: %s\n", myBurgers.sides);
+  printf("shakes: %s\n", myBurgers.shakes);
+  
+  
+  return  0;
+}   
+   </struct>
