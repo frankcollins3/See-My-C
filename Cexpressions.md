@@ -231,7 +231,7 @@ int main() {
   printf("BurgerKingMan: %s\n", myBurgers.burger);
   printf("Sides: %s\n", myBurgers.sides);
   printf("shakes: %s\n", myBurgers.shakes);
-  
+  printf("i cant memory my burger %p", burgerpointer);
   
   return  0;
 }   
