@@ -130,12 +130,49 @@ printf("%c appears in %s %d\t", myletter, str, number_of_o);
 }
 
 *** loop example 3 ***
-
-
-
-
-
 <c--------loopexampleEND**********/>
+   
+   
+concat user Input to a pre-defined global string
+   
+   #include <stdio.h>
+#include <string.h>
+
+
+int main () {
+int b = 42;  
+int *a = &b;  // pointer a (is set to) address of b 
+//  printf("b:\t %d\n", b);  // print value of b
+//  printf("&b:\t %p\n", &b);  // print memory address of b
+//  printf("a:\t %p", a);  // print memory address of A.
+
+//int *sexmemory = &sex;
+int lotto = 777;
+int *gamble = &lotto;
+char fullOfCrap[100] = "Youre full of %[^/n]s";
+
+char pleasantmsg[20] = "Please Enter Input\n";
+char input[100];
+
+char destination[45] = "Atleast we didnt: ";
+
+  if (lotto == 777) {
+//    printf("you heard");
+    printf("my favorite number is %d\n", lotto);
+printf("I cant remember the last time I %p\n", gamble);
+  } else {
+    printf("%s", fullOfCrap);
+  } 
+
+  printf("%s", pleasantmsg);
+  scanf("%[^\n]s", input);
+
+  strcat(destination, input);
+  printf("%s\n", input);
+  printf("%s", destination);
+  
+  return 0;
+}
 
 
 
