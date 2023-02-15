@@ -281,3 +281,28 @@ int main() {
 }   
    </struct>
    
+   
+<linked_list>
+        struct person {
+            int word_len;
+            char word_prefix[5];
+            char word[MAX_WORD_LEN];
+            struct person *next;
+        };
+
+        struct person people[MAX_WORDS];
+
+        void init_people() {
+            for (int i = 0; i < MAX_WORDS; i++) {
+                people[i].word_len = 0;
+                memset(people[i].word_prefix, 0, sizeof(people[i].word_prefix));
+                memset(people[i].word, 0, sizeof(people[i].word));
+                if (i < MAX_WORDS - 1) {
+                    people[i].next = &people[i+1];
+                }
+                else {
+                    people[i].next = NULL;
+                }
+            }
+        }   
+</linked_list>
