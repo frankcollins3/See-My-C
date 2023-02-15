@@ -35,6 +35,50 @@ int main() {
   char letter;
   scanf("%c", &letter);
   printf("I just typed %c", letter);
+   
+  #include <stdio.h>
+#include <string.h>
+              
+#define MAX_BURGER 20
+    struct burger {
+      char burger[]
+    }
+
+  struct burger burgerTarget
+
+  void init_burgers() {
+      for (int i = 0; i < MAX_BURGER; i++) {
+        burgerTarget[i].word = 10;
+memset(burgerTarget[i].word_prefix, 0, sizeof(burgerTarget[i].word_prefix))
+      }
+      if (i < MAX_BURGER - 1) {
+        burgerTarget[i].next = &people[i+1];
+      }
+      else {
+        burgerTarget[i].next = NULL;
+      }
+  }
+
+    int main () {
+//        init_burgers()
+      // read a sentence from the user:
+    char sentence[20];
+   
+    fgets(sentence, sizeof(sentence, stdin);
+// stdin is the library above to take and output input
+    char word[MAX_BURGER];
+    struct person *head = &burgerTarget[0];
+    int i = 0;
+    int sentence_len = strlen(sentence);
+
+    
+    
+      
+
+         
+      return 0;
+    }  
+   
 }
 *** 2) 1 word output ***
 int main() {
@@ -236,3 +280,4 @@ int main() {
   return  0;
 }   
    </struct>
+   
