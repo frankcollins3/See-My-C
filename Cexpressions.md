@@ -306,3 +306,143 @@ int main() {
             }
         }   
 </linked_list>
+
+
+
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    #include <stdio.h>
+    #include <string.h>
+
+    #define MAX_WORDS 10
+    #define MAX_WORD_LEN 100
+
+    struct word {
+        int length;
+        char prefix[5];
+        struct word* next;
+    };
+
+    struct word words[MAX_WORDS];
+char sentence[MAX_WORDS * MAX_WORD_LEN]; // list creator
+char sentence2[20]; // search | create | delete 
+char searchsentence[20];
+
+
+    void init_words() {
+        for (int i = 0; i < MAX_WORDS; i++) {
+            words[i].length = 0;
+            memset(words[i].prefix, 0, sizeof(words[i].prefix));
+            words[i].next = &words[i+1];
+        }
+        words[MAX_WORDS-1].next = NULL;
+    }
+
+    int main() {
+        init_words();
+
+        printf("Enter a sentence: ");
+        fgets(sentence, sizeof(sentence), stdin);
+
+        char word[MAX_WORD_LEN];
+        struct word* head = &words[0];
+        int i = 0;
+        int word_index = 0;
+        int sentence_len = strlen(sentence);
+        for (int j = 0; j < sentence_len; j++) {
+            char c = sentence[j];
+            if (c == ' ' || c == '\n') {
+                // Finish the current word and add it to the list:
+                head->length = word_index;
+                strncpy(head->prefix, word, 4);
+                if (i < MAX_WORDS - 1) {
+                    head->next = &words[i+1];
+                }
+                else {
+                    head->next = NULL;
+                }
+                head = head->next;
+                i++;
+                word_index = 0;
+            }
+            else {
+// Add the current character to the current word:
+                if (word_index < MAX_WORD_LEN-1) {
+                    word[word_index] = c;
+                    word_index++;
+                }
+            }
+        }
+
+        // Print the list:
+        head = &words[0];
+        while (head != NULL) {
+        // while (head != NULL && head->prefix != 0) {
+            if (head->length != 0) {
+            printf("length: %d, Prefix: %s\n", head->length, head->prefix);              
+            }
+            head = head->next;
+        }
+
+
+printf("Type in either of the 3 options\tand press enter to search\n\t\t\t\t\n");
+printf("search | delete | create :\t\t");
+  fgets(sentence2, sizeof(sentence2), stdin);
+  printf("I selected: %s", sentence2);
+
+  if (strstr(sentence2, "search")) {
+  head = &words[0]; // reassigning to 0.
+  while (head != NULL) {
+      if (head->length != 0) {
+      printf("prefix: %s\n", head->prefix);
+      }        
+      head = head->next;        
+  }
+printf
+(
+  "searching the list with up to the 4th letter\n* * * * * * Please Type into The Input * * * * * *\n\t\t\t\t\t " 
+   // also need case accomodative 
+);
+    
+  scanf("%[^\n]s", searchsentence);
+printf("Your Search Returned: %s\t Is that Correct?\n", searchsentence);  
+  
+    
+  // while (searchsentence != '\n') {        
+  //   while (head != NULL && searchsentence != '\0') {
+  //     if (strstr(head[i], searchsentence)) {
+  //       printf("%s", head[i]->prefix);
+  //     }
+  //   }
+  // }
+
+  // fgets(searchsentence, sizeof(searchsentence));
+  printf("searchTerm");
+
+  
+
+
+  } // end of search   
+    
+  if (strstr(sentence2, "create")) {
+    printf("create\ta\tnice\tone\n");
+  }
+  // end of create
+  if (strstr(sentence2, "delete")) {
+    printf("delete that");
+  }
+  // end of delete
+
+
+
+      
+
+        return 0;
+    }
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
+   
+   
