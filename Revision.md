@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_WORDS 100
 #define MAX_WORDS_LENGTH 1000
@@ -16,7 +17,7 @@ struct word *end = (struct word * ) NULL;
 struct word words[MAX_WORDS];
 char sentence[100];
 float x,y,sum;
-char ch;
+char ch, list;
 
 void init_words() {
     for (int i = 0; i < MAX_WORDS; i++) {
@@ -86,9 +87,17 @@ printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
         // printf ("The total number is:%f\n",sum);
     
     do {
-        // printf ("Enter the first number:\n");
-        printf("simple enough instructions:computer can do anything. enter sentence \n");
+        print_list();
+        printf("do you want to add or search to the list?\n");
+        
+        scanf(" %c", &list);
+        if (list == 'a') {
+            printf("okay were adding\n");
+            printf ("in add. want to go again? Y/N:\n");
+        scanf(" %c", &ch);
+        }
 
+        
         printf ("Do you want to repeat the operation Y/N:\n");
         scanf(" %c", &ch);
     }
