@@ -22,37 +22,69 @@ char ch, list;
 
 void add_word(char* prefix, int length)
 {
-//    printf("heres the list in ADD_WORD! : \n");
-// Find the first empty slot in the words array
+    // Find the first empty slot in the words array
     struct word* new_word = NULL;
     for (int i = 0; i < MAX_WORDS; i++) {
         if (words[i].length == 0) {
             new_word = &words[i];
-//  break; this seemed to work before and then stop
+            break;
         }
     }
-// empty slots ? return : continue / ^ you'd be up above
+    
+    // If there are no empty slots, return
     if (new_word == NULL) {
         return;
     }
-
-// Copy the prefix and length into the new word
+    
+    // Copy the prefix and length into the new word
     memset(new_word, 0, sizeof(struct word));
     strncpy(new_word->prefix, prefix, sizeof(new_word->prefix) - 1);
     new_word->prefix[sizeof(new_word->prefix) - 1] = '\0';
     new_word->length = length;
 
-// find the last word in the list
+    // Find the last word in the list
     struct word* current = &words[0];
     while (current->next != NULL) {
         current = current->next;
     }
 
-// add the new word to the end / .push() in js
+    // Add the new word to the end of the list
     current->next = new_word;
     new_word->next = NULL;
-// alphabetize(&words[0]);
 }
+
+// char* search_word(char* search, int length) {
+//   static char prefixArr[100];
+//   printf("search character: \t %s search results below: \n", search);
+//   char matchArr[length];
+//   head = &words[0];
+//   while (head != NULL) {
+//       for (int j = 0; j < 1; j++) {     
+//         if (head->prefix[j] == search[j]) {
+// printf("equal: headprefix[i]\t %c, search[i] \t %c, prefix:\t %s, length:\t %d \n ", head->prefix[j], search[j], head->prefix, head->length); 
+//         matchArr[j] = search[j];
+// memcpy(prefixArr, head->prefix, 4);
+//         } 
+//       }   
+//       head = head->next;
+//   } 
+//   return prefixArr;
+// }
+
+char* search_word(char* search, int length) {
+  static char prefixArr[100];
+  printf("search character: \t %s search results below: \n", search);
+  char matchArr[length];
+  head = &words[0];
+  while (head != NULL) {
+    if (head->length != 0) {
+    printf("prefix:\t %s \n", head->prefix);
+    }
+      head = head->next;
+  } 
+  return prefixArr;
+}
+
 
 void init_words()
 {
@@ -96,8 +128,7 @@ int main(void)
         if (c == ' ' || c == '\n') {
             // Finish the current word and add it to the list:
             head->length = word_index;
-
-
+            
             strncpy(head->prefix, word, head->length >= 4 ? 4 : head->length);
             // strncpy(head->prefix, word, 4);
             // strncpy(head->prefix, word, sizeof(word) > 3 ? 4 : sizeof(word));
@@ -127,6 +158,7 @@ int main(void)
     // printf ("The total number is:%f\n",sum);
 
     do {
+        printf("heres the list: \n");
         print_list();
         printf("do you want to add or search to the list?\n");
 
@@ -143,13 +175,24 @@ int main(void)
             int new_len = strlen(new2);
             add_word(new2, new_len);
             printf("I Just printed %s \n", new2);
-            // add_word("fish", 4);
-            // int sentence2_length = strlen(sentence2);
-            ch = 'G';
-
+            
+            ch = 'G';   // surprised this works and validates while block
             // printf ("G or g to Go again:\n");
             // scanf(" %c", &ch);
-        } else {
+        } 
+    else if (list == 's') {
+        // s || S 
+        char searchsentence[100];
+        printf("search into the input please: \n");
+        // fgets(searchsentence, 4, stdin);
+        scanf(" %[^\n]", searchsentence);
+        char* prefix = search_word(searchsentence, sizeof(searchsentence));
+        // printf("My Returned Search Result: \t %s\n", prefix);  
+        head = &words[0];
+        search_word(searchsentence, sizeof(searchsentence));  
+        // ch = 'G';
+    }
+        else {
     printf ("Do you want to repeat the operation g for Go Y/N:\n");
             scanf(" %c", &ch);
         }
@@ -157,7 +200,6 @@ int main(void)
 
     } while (ch == 'g' || ch == 'G');
 }
-
 * * * * * * * * * 
 go to 
 
