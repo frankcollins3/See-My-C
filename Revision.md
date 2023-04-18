@@ -2,7 +2,7 @@
 #include <string.h>
 
 #define MAX_WORDS 100
-#define MAX_WORDS_LENGTH 100
+#define MAX_WORDS_LENGTH 1000
 
 struct word {
     int length;
@@ -40,12 +40,10 @@ void print_list() {
 int main(void) {
     init_words();
     
-    do {
-        printf ("Enter the first number:\n");
-        printf("simple enough instructions:computer can do anything. enter sentence \n");
-printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve? look it up\n");
-        scanf ("%f",&x);
-        scanf("%[^\n]s", sentence);
+printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
+        // scanf ("%f",&x);
+        // scanf("%[^\n]s", sentence);
+        fgets(sentence, sizeof(sentence), stdin);
         printf("heres my sentence:\t %s \n \t \t \t \n", sentence);
             
             char word[MAX_WORDS_LENGTH];
@@ -58,7 +56,12 @@ printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve? look it up\n");
         if (c == ' ' || c == '\n') {
             // Finish the current word and add it to the list:
             head->length = word_index;
-            strncpy(head->prefix, word, 4);
+            
+          
+    strncpy(head->prefix, word, head->length >= 4 ? 4 : head->length);
+    // strncpy(head->prefix, word, 4);
+            // strncpy(head->prefix, word, sizeof(word) > 3 ? 4 : sizeof(word));
+           
             if (i < MAX_WORDS - 1) {
                 head->next = &words[i+1];
             }
@@ -81,11 +84,17 @@ printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve? look it up\n");
         // // scanf ("%f",&y);
         // // sum=x+y;
         // printf ("The total number is:%f\n",sum);
-        printf ("Do you want to repeat the operation Y/N: ");
-        scanf (" %c", &ch);
+    
+    do {
+        // printf ("Enter the first number:\n");
+        printf("simple enough instructions:computer can do anything. enter sentence \n");
+
+        printf ("Do you want to repeat the operation Y/N:\n");
+        scanf(" %c", &ch);
     }
     while (ch == 'y' || ch == 'Y');
 }
+
 
 * * * * * * * * * 
 go to 
