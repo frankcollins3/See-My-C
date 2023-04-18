@@ -71,7 +71,7 @@ char* search_word(char* search, int length)
     struct noMatch noMatchArr[100];
     int noMatchIndex = 0;
 
-    printf("search character: \t %s search results below: \n", search);
+printf("* * * * * search character: \t %s \t\t\t search results below: \n", search);
     char matchArr[length];
     head = &words[0];
     while (head != NULL) {
@@ -87,7 +87,9 @@ char* search_word(char* search, int length)
             }
             if (matches) {
                 // do something with matching words
+                printf("search results. - - - - - - - - - \n");
                 printf("prefix: %s length: %d \n ", head->prefix, head->length);
+                printf("search results. - - - - - - - - - \n \n\n\n");
             }
         }
         head = head->next;
@@ -167,7 +169,7 @@ void add_word(char* prefix, int length)
     // Add the new word to the end of the list
     current->next = new_word;
     new_word->next = NULL;
-    // alphabetize(&words[0]);
+    alphabetize(&words[0]);
 }
 
 
@@ -276,6 +278,7 @@ int main(void)
             // printf("My Returned Search Result: \t %s\n", prefix);
             head = &words[0];
             search_word(searchsentence, strlen(searchsentence));
+            printf("* * * * * * * search results above \n");
             ch = 'G';
         } else {
             printf ("Do you want to repeat the operation g for Go Y/N:\n");
