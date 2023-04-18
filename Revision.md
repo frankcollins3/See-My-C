@@ -20,39 +20,6 @@ char sentence[100];
 float x,y,sum;
 char ch, list;
 
-void add_word(char* prefix, int length)
-{
-    // Find the first empty slot in the words array
-    struct word* new_word = NULL;
-    for (int i = 0; i < MAX_WORDS; i++) {
-        if (words[i].length == 0) {
-            new_word = &words[i];
-            break;
-        }
-    }
-
-    // If there are no empty slots, return
-    if (new_word == NULL) {
-        return;
-    }
-
-    // Copy the prefix and length into the new word
-    memset(new_word, 0, sizeof(struct word));
-    strncpy(new_word->prefix, prefix, sizeof(new_word->prefix) - 1);
-    new_word->prefix[sizeof(new_word->prefix) - 1] = '\0';
-    new_word->length = length;
-
-    // Find the last word in the list
-    struct word* current = &words[0];
-    while (current->next != NULL) {
-        current = current->next;
-    }
-
-    // Add the new word to the end of the list
-    current->next = new_word;
-    new_word->next = NULL;
-}
-
 // char* search_word(char* search, int length) {
 //   static char prefixArr[100];
 //   printf("search character: \t %s search results below: \n", search);
@@ -129,6 +96,80 @@ char* search_word(char* search, int length)
     return prefixArr;
 }
 
+void swap(struct word* a, struct word* b) {
+int temp_length = a->length;
+char temp_prefix[5];
+strncpy(temp_prefix, a->prefix, 4);
+temp_prefix[4] = '\0';
+
+a->length = b->length;
+strncpy(a->prefix, b->prefix, 4);
+a->prefix[4] = '\0';
+
+b->length = temp_length;
+strncpy(b->prefix, temp_prefix, 4);
+b->prefix[4] = '\0';
+}
+
+// Function to sort the list in alphabetical order
+void alphabetize(struct word* head) {
+struct word* current = head;
+struct word* next = NULL;
+
+if (head == NULL) {
+    return;
+}
+
+int swapped;
+do {
+    swapped = 0;
+    current = head;
+    while (current->next != next) {
+ if (strcmp(current->prefix, current->next->prefix) > 0) {
+swap(current, current->next);
+swapped = 1;
+}
+        current = current->next;
+    }
+    next = current;
+} while (swapped);
+}
+
+
+void add_word(char* prefix, int length)
+{
+    // Find the first empty slot in the words array
+    struct word* new_word = NULL;
+    for (int i = 0; i < MAX_WORDS; i++) {
+        if (words[i].length == 0) {
+            new_word = &words[i];
+            break;
+        }
+    }
+
+    // If there are no empty slots, return
+    if (new_word == NULL) {
+        return;
+    }
+
+    // Copy the prefix and length into the new word
+    memset(new_word, 0, sizeof(struct word));
+    strncpy(new_word->prefix, prefix, sizeof(new_word->prefix) - 1);
+    new_word->prefix[sizeof(new_word->prefix) - 1] = '\0';
+    new_word->length = length;
+
+    // Find the last word in the list
+    struct word* current = &words[0];
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    // Add the new word to the end of the list
+    current->next = new_word;
+    new_word->next = NULL;
+    // alphabetize(&words[0]);
+}
+
 
 void init_words()
 {
@@ -147,6 +188,7 @@ void print_list()
         if (head->length != 0) {
             printf("length:\t %d prefix:\t %s \n", head->length, head->prefix);
         }
+        // alphabetize(&words[0]);
         head = head->next;
     }
 }
@@ -192,6 +234,7 @@ int main(void)
                 word_index++;
             }
         }
+        // alphabetize(&words[0]);
     }
     print_list();
     printf("\n\n\n");
