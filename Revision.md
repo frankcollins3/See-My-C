@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+// #include <conio.h>.   no clrscr() to [cls|clear] console.
 
 #define MAX_WORDS 100
 #define MAX_WORDS_LENGTH 1000
@@ -19,35 +20,73 @@ char sentence[100];
 float x,y,sum;
 char ch, list;
 
-void init_words() {
+void add_word(char* prefix, int length)
+{
+//    printf("heres the list in ADD_WORD! : \n");
+// Find the first empty slot in the words array
+    struct word* new_word = NULL;
+    for (int i = 0; i < MAX_WORDS; i++) {
+        if (words[i].length == 0) {
+            new_word = &words[i];
+//  break; this seemed to work before and then stop
+        }
+    }
+// empty slots ? return : continue / ^ you'd be up above
+    if (new_word == NULL) {
+        return;
+    }
+
+// Copy the prefix and length into the new word
+    memset(new_word, 0, sizeof(struct word));
+    strncpy(new_word->prefix, prefix, sizeof(new_word->prefix) - 1);
+    new_word->prefix[sizeof(new_word->prefix) - 1] = '\0';
+    new_word->length = length;
+
+// find the last word in the list
+    struct word* current = &words[0];
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+// add the new word to the end / .push() in js
+    current->next = new_word;
+    new_word->next = NULL;
+// alphabetize(&words[0]);
+}
+
+void init_words()
+{
     for (int i = 0; i < MAX_WORDS; i++) {
         words[i].length = 0;
-memset(words[i].prefix, 0, sizeof(words[i].prefix));
-    words[i].next = &words[i+1];
+        memset(words[i].prefix, 0, sizeof(words[i].prefix));
+        words[i].next = &words[i+1];
     }
     words[MAX_WORDS-1].next = NULL;
 }
 
-void print_list() {
+void print_list()
+{
     head = &words[0];
     while (head != NULL) {
         if (head->length != 0) {
-    printf("length:\t %d prefix:\t %s \n", head->length, head->prefix);
+            printf("length:\t %d prefix:\t %s \n", head->length, head->prefix);
         }
         head = head->next;
     }
 }
 
-int main(void) {
+int main(void)
+{
     init_words();
-    
-printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
-        // scanf ("%f",&x);
-        // scanf("%[^\n]s", sentence);
-        fgets(sentence, sizeof(sentence), stdin);
-        printf("heres my sentence:\t %s \n \t \t \t \n", sentence);
-            
-            char word[MAX_WORDS_LENGTH];
+
+    printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
+    printf("simple enough instructions:computer can do anything\n");
+    // scanf ("%f",&x);
+    // scanf("%[^\n]s", sentence);
+    fgets(sentence, sizeof(sentence), stdin);
+    printf("heres my sentence:\t %s \n \t \t \t \n", sentence);
+
+    char word[MAX_WORDS_LENGTH];
     struct word* head = &words[0];
     int i = 0;
     int word_index = 0;
@@ -57,53 +96,67 @@ printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
         if (c == ' ' || c == '\n') {
             // Finish the current word and add it to the list:
             head->length = word_index;
-            
-          
-    strncpy(head->prefix, word, head->length >= 4 ? 4 : head->length);
-    // strncpy(head->prefix, word, 4);
+
+
+            strncpy(head->prefix, word, head->length >= 4 ? 4 : head->length);
+            // strncpy(head->prefix, word, 4);
             // strncpy(head->prefix, word, sizeof(word) > 3 ? 4 : sizeof(word));
-           
+
             if (i < MAX_WORDS - 1) {
                 head->next = &words[i+1];
-            }
-            else {
+            } else {
                 head->next = NULL;
             }
             head = head->next;
             i++;
             word_index = 0;
-        }
-        else {
+        } else {
 // Add the current character to the current word:
             if (word_index < MAX_WORDS_LENGTH-1) {
                 word[word_index] = c;
                 word_index++;
-            }}}
-        print_list();
-        
-        // // printf ("Enter the second number:");
-        // // scanf ("%f",&y);
-        // // sum=x+y;
-        // printf ("The total number is:%f\n",sum);
-    
+            }
+        }
+    }
+    print_list();
+    printf("\n\n\n");
+
+    // // printf ("Enter the second number:");
+    // // scanf ("%f",&y);
+    // // sum=x+y;
+    // printf ("The total number is:%f\n",sum);
+
     do {
         print_list();
         printf("do you want to add or search to the list?\n");
-        
+
         scanf(" %c", &list);
         if (list == 'a') {
-            printf("okay were adding\n");
-            printf ("in add. want to go again? Y/N:\n");
-        scanf(" %c", &ch);
+            printf("enter a word into the input to add it to the list please \n");
+            // char sentence2[100];
+            // fgets(sentence2, sizeof(sentence2), stdin);
+            // scanf("%[^\n]s", sentence2);
+            printf("Press Space & Type To enter a new item into the list!\n");
+            char new2[10];
+            // fgets(new, 5, stdin);
+            scanf(" %[^\n]s", new2);
+            int new_len = strlen(new2);
+            add_word(new2, new_len);
+            printf("I Just printed %s \n", new2);
+            // add_word("fish", 4);
+            // int sentence2_length = strlen(sentence2);
+            ch = 'G';
+
+            // printf ("G or g to Go again:\n");
+            // scanf(" %c", &ch);
+        } else {
+    printf ("Do you want to repeat the operation g for Go Y/N:\n");
+            scanf(" %c", &ch);
         }
 
-        
-        printf ("Do you want to repeat the operation Y/N:\n");
-        scanf(" %c", &ch);
-    }
-    while (ch == 'y' || ch == 'Y');
-}
 
+    } while (ch == 'g' || ch == 'G');
+}
 
 * * * * * * * * * 
 go to 
