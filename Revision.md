@@ -173,6 +173,7 @@ void add_word(char* prefix, int length)
 }
 
 
+
 void init_words()
 {
     for (int i = 0; i < MAX_WORDS; i++) {
@@ -194,6 +195,25 @@ void print_list()
         head = head->next;
     }
 }
+
+  void delete_list() {
+    printf("im in the delete function!\n");
+  
+    struct word* current = &words[0];
+    // struct word* current = head;
+    while (current != NULL) {
+        struct word* next = current->next;
+        current->length = 0;
+memset(current->prefix, 0, 0);
+// memset(current->prefix, 0, sizeof(current->prefix));
+        current->next = NULL;
+        current = next;
+    }
+    // head = NULL;
+    // end = NULL;
+    
+    print_list();
+  }
 
 int main(void)
 {
@@ -280,7 +300,12 @@ int main(void)
             search_word(searchsentence, strlen(searchsentence));
             printf("* * * * * * * search results above \n");
             ch = 'G';
-        } else {
+        } else if (list == 'd') {
+            printf("oh you want to delete? \n");
+            delete_list();
+            ch = 'g';
+        }
+        else {
             printf ("Do you want to repeat the operation g for Go Y/N:\n");
             scanf(" %c", &ch);
         }
