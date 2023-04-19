@@ -1,3 +1,6 @@
+example sentence:
+ive never been to paris but if i were to go i would go enjoy the food and france
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
