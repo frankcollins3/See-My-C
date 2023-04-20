@@ -35,7 +35,7 @@ char* search_word(char* search, int length)
     static char prefixArr[100];
     struct noMatch noMatchArr[100];
     int noMatchIndex = 0;
-
+    
 printf("* * * * * search character: \t %s \t\t\t search results below: \n", search);
     char matchArr[length];
     head = &words[0];
@@ -214,7 +214,7 @@ memset(current->prefix, 0, 0);
 int main(void)
 {
     init_words();
-
+    beginning:
     printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
     printf("simple enough instructions:computer can do anything\n");
     // scanf ("%f",&x);
@@ -287,7 +287,7 @@ printf("linked list data presented below: {prefix: up to 4 letters} {length: of 
 // printf("a to add a word to the linked list data. prefix up to 4 letters and length is saved\n");
 // printf("s to do a sensitive search. S for an insensitive search\n");
 // printf("d to delete the list");
-printf("a to add a word to the list. s (insensitive) S (sensitive) search modes. d to delete\n");
+printf("a to add a word.s (insensitive) S (sensitive) search modes. d to delete c to clear\n");
         scanf(" %c", &list);
         if (list == 'a') {
             printf("enter a word into the input to add it to the list please \n");
@@ -329,13 +329,16 @@ printf("capitalization matters. search up to 4 letters please: \n");
             ch = 'G';
         }
         else if (list == 'd') {
-            printf(" * * * empty list rendered below: \n\n\n * * * ");
+            printf("the list has been deleted \n");
+            delete_list();
+            // ch = 'g';
+            goto beginning;
+        } else if (list == 'c') {
+                        printf(" * * * empty list rendered below: \n\n\n * * * ");
             printf("\033[2J\033[H");   // ANSI escape codes to clear screen
             printf("Screen cleared!\n");
-            delete_list();
-            ch = 'g';
-        }
-        else {
+            ch = 'G';
+        } else {
             printf ("Do you want to repeat the operation g for Go Y/N:\n");
             scanf(" %c", &ch);
         }
