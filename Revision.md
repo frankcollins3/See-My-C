@@ -1,4 +1,4 @@
-#include <stdio.h>
+]#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -102,7 +102,7 @@ struct word* search_word_one(char* search, int length)
     while (head != NULL) {
         if (head->length != 0) {
             int matches = 1;
-            for (int j = 0; j < length && j < 4; j++) { // only compare up to the first 4 letters
+  for (int j = 0; j < length && j < 4; j++) { // only compare up to the first 4 letters
                 if (head->prefix[j] != search[j]) {
                     matches = 0;
                     break;
@@ -229,9 +229,22 @@ memset(current->prefix, 0, 0);
     }
     // head = NULL;
     // end = NULL;
-   
     print_list();
   }
+
+int upperInChar(char sentence[100], int length) {
+  int upperCount = 0; 
+  for (int i = 0; i < length; i++) {
+    if (isupper(sentence[i])) {
+      upperCount++;
+    }
+  }
+  if (upperCount > 0) {
+    return 1;
+  } else if (upperCount == 0) {
+    return 0;
+  }
+}
 
 int main(void)
 {
@@ -293,8 +306,23 @@ int main(void)
       printf("please search up to the first four letters. \n");
             // fgets(searchsentence1, 4, stdin);
             scanf(" %[^\n]", searchsentence1);
-
+            int searchsentence1Length = sizeof(searchsentence1);
+            // for (int i = 0; i < sizeof(searchsentence1); i++) {
+            //       if (isupper(searchsentence1[i])) {
+            //           // case sensitive. 
+            //         printf("there are capital letters \n");
+            //         break;
+            //       } 
+            // }
+        
+int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length);
+          printf("do i have uppercase?:\t %d \n", searchsentence_is_upper);
+        
+                  // * * searchsentence1 uppercase based searching
+  // if you have an F uppercase in search. have to be insensitive and dont lowercase char
+        
 struct word* result = search_word_one(searchsentence1, strlen(searchsentence1));
+        
     if (result != NULL) {
         printf("prefix: %s length: %d\n", result->prefix, result->length);
     } else {
