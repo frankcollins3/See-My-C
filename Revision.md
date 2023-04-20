@@ -96,6 +96,28 @@ char* search_word_insensitive(char* search, int length)
     return prefixArr;
 }
 
+struct word* search_word_one(char* search, int length)
+{
+    struct word* head = &words[0];
+    while (head != NULL) {
+        if (head->length != 0) {
+            int matches = 1;
+            for (int j = 0; j < length && j < 4; j++) { // only compare up to the first 4 letters
+                if (head->prefix[j] != search[j]) {
+                    matches = 0;
+                    break;
+                }
+            }
+            if (matches) {
+                return head; // return the first matching word found
+            }
+        }
+        head = head->next;
+    }
+    return NULL; // return NULL if no matching word found
+}
+
+
 void swap(struct word* a, struct word* b) {
     int temp_length = a->length;
     char temp_prefix[5];
@@ -213,8 +235,8 @@ memset(current->prefix, 0, 0);
 
 int main(void)
 {
-    init_words();
     beginning:
+    init_words();
     printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
     printf("simple enough instructions:computer can do anything\n");
     // scanf ("%f",&x);
@@ -260,12 +282,19 @@ int main(void)
         // alphabetize(&words[0]);
     }
     print_list();
+    firstSearch:      // nice. goto working as intended at this moment.
     printf("\n\n\n");
+          char searchsentence1[100];
+      printf("please search up to the first four letters. \n");
+            // fgets(searchsentence1, 4, stdin);
+            scanf(" %[^\n]", searchsentence1);
 
-    // // printf ("Enter the second number:");
-    // // scanf ("%f",&y);
-    // // sum=x+y;
-    // printf ("The total number is:%f\n",sum);
+struct word* result = search_word_one(searchsentence1, strlen(searchsentence1));
+    if (result != NULL) {
+        printf("prefix: %s length: %d\n", result->prefix, result->length);
+    } else {
+        goto firstSearch;
+    }
 
     do {
 // printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n ");
@@ -330,51 +359,21 @@ printf("capitalization matters. search up to 4 letters please: \n");
         }
         else if (list == 'd') {
             printf("the list has been deleted \n");
-            delete_list();
-            // ch = 'g';
-            goto beginning;
+   //          delete_list();
+   //          ch = 'g';
+    goto beginning;   // tried to use to restart the entry of sentence[100]
         } else if (list == 'c') {
                         printf(" * * * empty list rendered below: \n\n\n * * * ");
             printf("\033[2J\033[H");   // ANSI escape codes to clear screen
-            printf("Screen cleared!\n");
+            // printf("Screen cleared!\n");
             ch = 'G';
+      // goto beginning;
         } else {
-            printf ("Do you want to repeat the operation g for Go Y/N:\n");
+    printf ("(g | G) to go again please.\n");
             scanf(" %c", &ch);
         }
 
 
     } while (ch == 'g' || ch == 'G');
+    printf("thanks for playing");
 }
-
-
-
-* * * * * * * * * 
-go to 
-
-#include<stdio.h>
-int main(){
-float x, y, sum;
-char ch;
-print:
-    printf ("Enter the first number:");
-    scanf ("%f",&x);
-    printf ("Enter the second number:");
-    scanf ("%f",&y);
-    sum=x+y;
-    printf ("\nThe total number is:%.2f\n",sum);
-again:
-    printf ("\n\t\t\t\t\tDo you want to repeat the operation(Y/N): ");
-    scanf (" %c", &ch);
-
-    if(ch == 'y' || ch == 'Y'){
-        goto print;
-    }
-    else if(ch == 'n' || ch == 'N'){
-        return 0;
-    }
-    else{
-        printf("\n\t\t\t\t\tPlease enter Yes or NO.\n");
-        goto again;
-    }
-   return 0;}
