@@ -1,4 +1,4 @@
-]#include <stdio.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -232,11 +232,14 @@ memset(current->prefix, 0, 0);
     print_list();
   }
 
-int upperInChar(char sentence[100], int length) {
+int upperInChar(char sentence[4], int length) {
+  printf("heres my sentence in upperInChar function \t %s\n", sentence);
   int upperCount = 0; 
-  for (int i = 0; i < length; i++) {
+  // for (int i = 0; i < length; i++) {
+    for (int i = 0; i < sizeof(sentence); i++) {
     if (isupper(sentence[i])) {
       upperCount++;
+      printf("sentence[i]: %c, upperCount: %d\n ", sentence[i], upperCount);
     }
   }
   if (upperCount > 0) {
@@ -302,7 +305,7 @@ int main(void)
       if (head->length > 1) {
 
               printf("\n\n\n");
-          char searchsentence1[100];
+          char searchsentence1[4];
       printf("please search up to the first four letters. \n");
             // fgets(searchsentence1, 4, stdin);
             scanf(" %[^\n]", searchsentence1);
@@ -316,15 +319,19 @@ int main(void)
             // }
         
 int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length);
-          printf("do i have uppercase?:\t %d \n", searchsentence_is_upper);
-        
+        printf("searchsentence_is_upper: %d\t", searchsentence_is_upper);
+                  if (searchsentence_is_upper == 0) {
+                    printf("no caps");                    
+                  } else if (searchsentence_is_upper == 1) {
+                    printf("capital letters included\n ");
+                  }
                   // * * searchsentence1 uppercase based searching
   // if you have an F uppercase in search. have to be insensitive and dont lowercase char
         
 struct word* result = search_word_one(searchsentence1, strlen(searchsentence1));
         
     if (result != NULL) {
-        printf("prefix: %s length: %d\n", result->prefix, result->length);
+        printf("prefix:\t %s length:\t %d\n", result->prefix, result->length);
     } else {
         goto firstSearch;
     }
