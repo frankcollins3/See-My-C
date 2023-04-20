@@ -16,6 +16,11 @@ struct word {
     struct word* next;
 };
 
+struct node {
+    struct word data;
+    struct node* next;
+};
+
 struct word *head = ( struct word * ) NULL;
 struct word *end = (struct word * ) NULL;
 
@@ -144,7 +149,7 @@ void add_word(char* prefix, int length)
         }
     }
 
-    // If there are no empty slots, return
+    // If there are no empty slots, returnin
     if (new_word == NULL) {
         return;
     }
@@ -221,7 +226,12 @@ int main(void)
     printf("heres my sentence:\t %s \n \t \t \t \n", sentence);
 
     char word[MAX_WORDS_LENGTH];
-    struct word* head = &words[0];
+    // struct word words;
+
+  
+    struct word* head = &words[0];      
+    
+  
     int i = 0;
     int word_index = 0;
     int sentence_len = strlen(sentence);
@@ -261,7 +271,19 @@ int main(void)
     // printf ("The total number is:%f\n",sum);
 
     do {
-        printf("here is the linked list data: \n");
+// printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n");
+
+      head = &words[0];
+    while (head != NULL) {
+      if (head->length > 1) {
+printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n");
+        break;
+      } else {
+        printf("there is no linked list data to present: \n");
+        break;
+      }
+    }
+      
         print_list();
 // printf("below is an input that interacts with a linked list.\n");
 // printf("a to add a word to the linked list data. prefix up to 4 letters and length is saved\n");
