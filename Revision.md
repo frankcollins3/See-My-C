@@ -4,6 +4,7 @@ ive never been to paris but if i were to go i would go enjoy the food and france
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 // #include <conio.h>.   no clrscr() to [cls|clear] console.
 
 #define MAX_WORDS 100
@@ -22,47 +23,6 @@ struct word words[MAX_WORDS];
 char sentence[100];
 float x,y,sum;
 char ch, list;
-
-// char* search_word(char* search, int length) {
-//   static char prefixArr[100];
-//   printf("search character: \t %s search results below: \n", search);
-//   char matchArr[length];
-//   head = &words[0];
-//   while (head != NULL) {
-//       for (int j = 0; j < 1; j++) {
-//         if (head->prefix[j] == search[j]) {
-// printf("equal: headprefix[i]\t %c, search[i] \t %c, prefix:\t %s, length:\t %d \n ", head->prefix[j], search[j], head->prefix, head->length);
-//         matchArr[j] = search[j];
-// memcpy(prefixArr, head->prefix, 4);
-//         }
-//       }
-//       head = head->next;
-//   }
-//   return prefixArr;
-// }
-
-// char* search_word(char* search, int length) {
-//   static char prefixArr[100];
-
-//   printf("search character: \t %s search results below: \n", search);
-//   char matchArr[length];
-//   head = &words[0];
-//   while (head != NULL) {
-//     if (head->length != 0) {
-//         for (int j = 0; j < length; j++) {
-//             if (head->prefix[j] != search[j]) {
-//                 printf("prefix:\t %s \n", head->prefix);
-//                 strcpy(noMatch.noMatchWord, head->prefix);
-//             }
-//         }
-//     }
-//       for (int k = 0; k < sizeof(noMatch.noMatchWord); k++) {
-//           printf("here are those words: %s", nomatch.noMatchWord)
-//       }
-//       head = head->next;
-//   }
-//   return prefixArr;
-// }
 
 struct noMatch {
     char noMatchWord[100];
@@ -101,45 +61,77 @@ printf("* * * * * search character: \t %s \t\t\t search results below: \n", sear
     return prefixArr;
 }
 
+char* search_word_insensitive(char* search, int length)
+{
+    static char prefixArr[100];
+    struct noMatch noMatchArr[100];
+    int noMatchIndex = 0;
+
+    printf("* * * * * search character: \t %s \t\t\t search results below: \n", search);
+    char matchArr[length];
+    head = &words[0];
+    while (head != NULL) {
+        if (head->length != 0) {
+            int matches = 1;
+            for (int j = 0; j < length; j++) {
+                if (tolower(head->prefix[j]) != tolower(search[j])) {  // convert both characters to lowercase before comparison
+                    matches = 0;
+                    strcpy(noMatchArr[noMatchIndex].noMatchWord, head->prefix);
+                    noMatchIndex++;
+                    break;
+                }
+            }
+            if (matches) {
+                // do something with matching words
+                printf("search results. - - - - - - - - - \n");
+                printf("prefix: %s length: %d \n ", head->prefix, head->length);
+                printf("search results. - - - - - - - - - \n \n\n\n");
+            }
+        }
+        head = head->next;
+    }
+    // do something with non-matching words in noMatchArr
+    return prefixArr;
+}
+
 void swap(struct word* a, struct word* b) {
-int temp_length = a->length;
-char temp_prefix[5];
-strncpy(temp_prefix, a->prefix, 4);
-temp_prefix[4] = '\0';
-
-a->length = b->length;
-strncpy(a->prefix, b->prefix, 4);
-a->prefix[4] = '\0';
-
-b->length = temp_length;
-strncpy(b->prefix, temp_prefix, 4);
-b->prefix[4] = '\0';
+    int temp_length = a->length;
+    char temp_prefix[5];
+    strncpy(temp_prefix, a->prefix, 4);
+    temp_prefix[4] = '\0';
+   
+    a->length = b->length;
+    strncpy(a->prefix, b->prefix, 4);
+    a->prefix[4] = '\0';
+   
+    b->length = temp_length;
+    strncpy(b->prefix, temp_prefix, 4);
+    b->prefix[4] = '\0';
 }
 
 // Function to sort the list in alphabetical order
 void alphabetize(struct word* head) {
-struct word* current = head;
-struct word* next = NULL;
+    struct word* current = head;
+    struct word* next = NULL;
 
-if (head == NULL) {
-    return;
-}
-
-int swapped;
-do {
-    swapped = 0;
-    current = head;
-    while (current->next != next) {
- if (strcmp(current->prefix, current->next->prefix) > 0) {
-swap(current, current->next);
-swapped = 1;
-}
-        current = current->next;
+    if (head == NULL) {
+        return;
     }
-    next = current;
-} while (swapped);
-}
 
+    int swapped;
+    do {
+        swapped = 0;
+        current = head;
+        while (current->next != next) {
+            if (strncasecmp(current->prefix, current->next->prefix, 4) > 0) {
+                swap(current, current->next);
+                swapped = 1;
+            }
+            current = current->next;
+        }
+        next = current;
+    } while (swapped);
+}
 
 void add_word(char* prefix, int length)
 {
@@ -200,8 +192,7 @@ void print_list()
 }
 
   void delete_list() {
-    printf("im in the delete function!\n");
-  
+ 
     struct word* current = &words[0];
     // struct word* current = head;
     while (current != NULL) {
@@ -214,7 +205,7 @@ memset(current->prefix, 0, 0);
     }
     // head = NULL;
     // end = NULL;
-    
+   
     print_list();
   }
 
@@ -270,10 +261,13 @@ int main(void)
     // printf ("The total number is:%f\n",sum);
 
     do {
-        printf("heres the list: \n");
+        printf("here is the linked list data: \n");
         print_list();
-        printf("do you want to add or search to the list?\n");
-
+// printf("below is an input that interacts with a linked list.\n");
+// printf("a to add a word to the linked list data. prefix up to 4 letters and length is saved\n");
+// printf("s to do a sensitive search. S for an insensitive search\n");
+// printf("d to delete the list");
+printf("a to add a word to the list. s (insensitive) S (sensitive) search modes. d to delete\n");
         scanf(" %c", &list);
         if (list == 'a') {
             printf("enter a word into the input to add it to the list please \n");
@@ -291,10 +285,10 @@ int main(void)
             ch = 'G';   // surprised this works and validates while block
             // printf ("G or g to Go again:\n");
             // scanf(" %c", &ch);
-        } else if (list == 's') {
+        } else if (list == 'S') {
             // s || S
             char searchsentence[100];
-            printf("search into the input please: \n");
+printf("capitalization matters. search up to 4 letters please: \n");
             // fgets(searchsentence, 4, stdin);
             scanf(" %[^\n]", searchsentence);
             char* prefix = search_word(searchsentence, strlen(searchsentence));
@@ -303,8 +297,20 @@ int main(void)
             search_word(searchsentence, strlen(searchsentence));
             printf("* * * * * * * search results above \n");
             ch = 'G';
-        } else if (list == 'd') {
-            printf("oh you want to delete? \n");
+        } else if (list == 's') {
+          char searchsentence2[100];
+    printf("capitalization doesnt matter its insensitive!!!!: \n");
+            // fgets(searchsentence, 4, stdin);
+            scanf(" %[^\n]", searchsentence2);
+            char* prefix = search_word(searchsentence2, strlen(searchsentence2));
+            // printf("My Returned Search Result: \t %s\n", prefix);
+            head = &words[0];
+            search_word_insensitive(searchsentence2, strlen(searchsentence2));
+            printf("* * * * * * * search results above \n");
+            ch = 'G';
+        }
+        else if (list == 'd') {
+            printf(" * * * empty list rendered below: \n\n\n * * * ");
             delete_list();
             ch = 'g';
         }
@@ -316,6 +322,7 @@ int main(void)
 
     } while (ch == 'g' || ch == 'G');
 }
+
 
 * * * * * * * * * 
 go to 
