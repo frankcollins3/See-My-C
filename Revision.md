@@ -271,12 +271,12 @@ int main(void)
     // printf ("The total number is:%f\n",sum);
 
     do {
-// printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n");
+// printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n ");
 
       head = &words[0];
     while (head != NULL) {
       if (head->length > 1) {
-printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n");
+printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}\n\n\n");
         break;
       } else {
         printf("there is no linked list data to present: \n");
@@ -285,6 +285,7 @@ printf("linked list data presented below: {prefix: up to 4 letters} {length: of 
     }
       
         print_list();
+        printf("\n \n \n");
 // printf("below is an input that interacts with a linked list.\n");
 // printf("a to add a word to the linked list data. prefix up to 4 letters and length is saved\n");
 // printf("s to do a sensitive search. S for an insensitive search\n");
@@ -296,13 +297,12 @@ printf("a to add a word to the list. s (insensitive) S (sensitive) search modes.
             // char sentence2[100];
             // fgets(sentence2, sizeof(sentence2), stdin);
             // scanf("%[^\n]s", sentence2);
-            printf("Press Space & Type To enter a new item into the list!\n");
             char new2[10];
             // fgets(new, 5, stdin);
             scanf(" %[^\n]s", new2);
             int new_len = strlen(new2);
             add_word(new2, new_len);
-            printf("I Just printed %s \n", new2);
+            printf("I Just printed %s \n \n", new2);
 
             ch = 'G';   // surprised this works and validates while block
             // printf ("G or g to Go again:\n");
@@ -333,6 +333,8 @@ printf("capitalization matters. search up to 4 letters please: \n");
         }
         else if (list == 'd') {
             printf(" * * * empty list rendered below: \n\n\n * * * ");
+            printf("\033[2J\033[H");   // ANSI escape codes to clear screen
+            printf("Screen cleared!\n");
             delete_list();
             ch = 'g';
         }
