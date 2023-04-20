@@ -24,7 +24,7 @@ struct word *end = (struct word * ) NULL;
 struct word words[MAX_WORDS];
 char sentence[100];
 float x,y,sum;
-char ch, list;
+char ch, list, search_again;
 
 struct noMatch {
     char noMatchWord[100];
@@ -282,8 +282,13 @@ int main(void)
         // alphabetize(&words[0]);
     }
     print_list();
+
     firstSearch:      // nice. goto working as intended at this moment.
-    printf("\n\n\n");
+        head = &words[0];
+    while (head != NULL) {
+      if (head->length > 1) {
+
+              printf("\n\n\n");
           char searchsentence1[100];
       printf("please search up to the first four letters. \n");
             // fgets(searchsentence1, 4, stdin);
@@ -295,7 +300,19 @@ struct word* result = search_word_one(searchsentence1, strlen(searchsentence1));
     } else {
         goto firstSearch;
     }
-
+    printf("would you like to search again? Y \n");
+    scanf(" %c", &search_again);
+    if (search_again == 'y') {
+      goto firstSearch;
+    }
+        
+        break;
+      } else {
+        printf("there is no linked list data to present: \n");
+        break;
+      }
+    }
+  
     do {
 // printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n ");
 
