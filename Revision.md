@@ -135,44 +135,46 @@ struct word* search_word_one(char* search, int length)
 }
 
 
-void swap(struct word* a, struct word* b) {
-    int temp_length = a->length;
-    char temp_prefix[5];
-    strncpy(temp_prefix, a->prefix, 4);
-    temp_prefix[4] = '\0';
+// void swap(struct word* a, struct word* b) {
+//     int temp_length = a->length;
+//     char temp_prefix[5];
+//     strncpy(temp_prefix, a->prefix, 4);
+//     temp_prefix[4] = '\0';
    
-    a->length = b->length;
-    strncpy(a->prefix, b->prefix, 4);
-    a->prefix[4] = '\0';
+//     a->length = b->length;
+//     strncpy(a->prefix, b->prefix, 4);
+//     a->prefix[4] = '\0';
    
-    b->length = temp_length;
-    strncpy(b->prefix, temp_prefix, 4);
-    b->prefix[4] = '\0';
-}
+//     b->length = temp_length;
+//     strncpy(b->prefix, temp_prefix, 4);
+//     b->prefix[4] = '\0';
+// }
 
-// Function to sort the list in alphabetical order
-void alphabetize(struct word* head) {
-    struct word* current = head;
-    struct word* next = NULL;
+// // Function to sort the list in alphabetical order
+// void alphabetize(struct word* head) {
+//     struct word* current = head;
+//     struct word* next = NULL;
 
-    if (head == NULL) {
-        return;
-    }
+//     if (head == NULL) {
+//         return;
+//     }
 
-    int swapped;
-    do {
-        swapped = 0;
-        current = head;
-        while (current->next != next) {
-            if (strncasecmp(current->prefix, current->next->prefix, 4) > 0) {
-                swap(current, current->next);
-                swapped = 1;
-            }
-            current = current->next;
-        }
-        next = current;
-    } while (swapped);
-}
+//     int swapped;
+//     do {
+//         swapped = 0;
+//         current = head;
+//         while (current->next != next) {
+//             if (strncasecmp(current->prefix, current->next->prefix, 4) > 0) {
+//                 swap(current, current->next);
+//                 swapped = 1;
+//             }
+//             current = current->next;
+//         }
+//         next = current;
+//     } while (swapped);
+// }
+
+
 
 void add_word(char* prefix, int length)
 {
@@ -205,7 +207,7 @@ void add_word(char* prefix, int length)
     // Add the new word to the end of the list
     current->next = new_word;
     new_word->next = NULL;
-    alphabetize(&words[0]);
+    // alphabetize(&words[0]);
 }
 
 
@@ -227,7 +229,6 @@ void print_list()
         if (head->length != 0) {
             printf("length:\t %d prefix:\t %s \n", head->length, head->prefix);
         }
-        // alphabetize(&words[0]);
         head = head->next;
     }
 }
@@ -282,7 +283,6 @@ int main(void)
   
     struct word* head = &words[0];      
     
-  
     int i = 0;
     int word_index = 0;
     int sentence_len = strlen(sentence);
@@ -293,8 +293,6 @@ int main(void)
             head->length = word_index;
 
             strncpy(head->prefix, word, head->length >= 4 ? 4 : head->length);
-            // strncpy(head->prefix, word, 4);
-            // strncpy(head->prefix, word, sizeof(word) > 3 ? 4 : sizeof(word));
 
             if (i < MAX_WORDS - 1) {
                 head->next = &words[i+1];
@@ -311,8 +309,8 @@ int main(void)
                 word_index++;
             }
         }
-        // alphabetize(&words[0]);
     }
+    // alphabetize(&words[0]);
     print_list();
 
     firstSearch:      // nice. goto working as intended at this moment.
