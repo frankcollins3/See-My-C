@@ -135,44 +135,44 @@ struct word* search_word_one(char* search, int length)
 }
 
 
-// void swap(struct word* a, struct word* b) {
-//     int temp_length = a->length;
-//     char temp_prefix[5];
-//     strncpy(temp_prefix, a->prefix, 4);
-//     temp_prefix[4] = '\0';
+void swap(struct word* a, struct word* b) {
+    int temp_length = a->length;
+    char temp_prefix[5];
+    strncpy(temp_prefix, a->prefix, 4);
+    temp_prefix[4] = '\0';
    
-//     a->length = b->length;
-//     strncpy(a->prefix, b->prefix, 4);
-//     a->prefix[4] = '\0';
+    a->length = b->length;
+    strncpy(a->prefix, b->prefix, 4);
+    a->prefix[4] = '\0';
    
-//     b->length = temp_length;
-//     strncpy(b->prefix, temp_prefix, 4);
-//     b->prefix[4] = '\0';
-// }
+    b->length = temp_length;
+    strncpy(b->prefix, temp_prefix, 4);
+    b->prefix[4] = '\0';
+}
 
-// // Function to sort the list in alphabetical order
-// void alphabetize(struct word* head) {
-//     struct word* current = head;
-//     struct word* next = NULL;
+// Function to sort the list in alphabetical order
+void alphabetize(struct word* head) {
+    struct word* current = head;
+    struct word* next = NULL;
 
-//     if (head == NULL) {
-//         return;
-//     }
+    if (head == NULL) {
+        return;
+    }
 
-//     int swapped;
-//     do {
-//         swapped = 0;
-//         current = head;
-//         while (current->next != next) {
-//             if (strncasecmp(current->prefix, current->next->prefix, 4) > 0) {
-//                 swap(current, current->next);
-//                 swapped = 1;
-//             }
-//             current = current->next;
-//         }
-//         next = current;
-//     } while (swapped);
-// }
+    int swapped;
+    do {
+        swapped = 0;
+        current = head;
+        while (current->next != next) {
+            if (strncasecmp(current->prefix, current->next->prefix, 4) > 0) {
+                swap(current, current->next);
+                swapped = 1;
+            }
+            current = current->next;
+        }
+        next = current;
+    } while (swapped);
+}
 
 
 
@@ -207,7 +207,7 @@ void add_word(char* prefix, int length)
     // Add the new word to the end of the list
     current->next = new_word;
     new_word->next = NULL;
-    // alphabetize(&words[0]);
+    alphabetize(&words[0]);
 }
 
 
@@ -274,42 +274,60 @@ int main(void)
     printf("simple enough instructions:computer can do anything\n");
     // scanf ("%f",&x);
     // scanf("%[^\n]s", sentence);
-    fgets(sentence, sizeof(sentence), stdin);
-    printf("heres my sentence:\t %s \n \t \t \t \n", sentence);
 
-    char word[MAX_WORDS_LENGTH];
-    // struct word words;
+      fgets(sentence, sizeof(sentence), stdin);
+    printf("Here's your sentence: %s\n", sentence);
 
-  
-    struct word* head = &words[0];      
+    // Initialize the list of words:
+    init_words();
     
+    char word[MAX_WORDS_LENGTH];
     int i = 0;
     int word_index = 0;
     int sentence_len = strlen(sentence);
+    
+    // Parse the sentence and add each word to the linked list:
     for (int j = 0; j < sentence_len; j++) {
         char c = sentence[j];
         if (c == ' ' || c == '\n') {
             // Finish the current word and add it to the list:
-            head->length = word_index;
-
-            strncpy(head->prefix, word, head->length >= 4 ? 4 : head->length);
-
-            if (i < MAX_WORDS - 1) {
-                head->next = &words[i+1];
-            } else {
-                head->next = NULL;
-            }
-            head = head->next;
+            words[i].length = word_index;
+            strncpy(words[i].prefix, word, words[i].length >= 4 ? 4 : words[i].length);
             i++;
             word_index = 0;
         } else {
-// Add the current character to the current word:
+            // Add the current character to the current word:
             if (word_index < MAX_WORDS_LENGTH-1) {
                 word[word_index] = c;
                 word_index++;
             }
         }
     }
+    // Add the last word to the list (if any):
+    if (word_index > 0) {
+        words[i].length = word_index;
+        strncpy(words[i].prefix, word, words[i].length >= 4 ? 4 : words[i].length);
+        i++;
+    }
+
+    // Sort the words alphabetically:
+    for (int k = 0; k < i-1; k++) {
+        for (int l = k+1; l < i; l++) {
+            if (strcmp(words[k].prefix, words[l].prefix) > 0) {
+                // Swap the words:
+                struct word temp = words[k];
+                words[k] = words[l];
+                words[l] = temp;
+            }
+        }
+    }
+
+    // Update the pointers in the linked list:
+    for (int k = 0; k < i-1; k++) {
+        words[k].next = &words[k+1];
+    }
+    words[i-1].next = NULL;
+    
     // alphabetize(&words[0]);
     print_list();
 
@@ -351,7 +369,7 @@ printf("search results --- prefix:\t  %s length:\t %d\n\n", result->prefix, resu
     }
     printf("would you like to search again? Y \n");
     scanf(" %c", &search_again);
-    if (search_again == 'y') {
+    if (search_again == 'y' || search_again == 'Y') {
       goto firstSearch;
     }
         
