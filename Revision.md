@@ -99,22 +99,39 @@ char* search_word_insensitive(char* search, int length)
 struct word* search_word_one(char* search, int length)
 {
     struct word* head = &words[0];
+    int has_uppercase = 0;
+
+    // Check if search has uppercase characters
+    for (int i = 0; i < length; i++) {
+        if (isupper(search[i])) {
+            has_uppercase = 1;
+            break;
+        }
+    }
+
+    // Convert search to lowercase if there are any uppercase characters
+    if (has_uppercase) {
+        for (int i = 0; i < length; i++) {
+            search[i] = tolower(search[i]);
+        }
+    }
+
     while (head != NULL) {
         if (head->length != 0) {
             int matches = 1;
-  for (int j = 0; j < length && j < 4; j++) { // only compare up to the first 4 letters
-                if (head->prefix[j] != search[j]) {
+            for (int j = 0; j < length && j < 4; j++) {
+                if (tolower(head->prefix[j]) != search[j]) {
                     matches = 0;
                     break;
                 }
             }
             if (matches) {
-                return head; // return the first matching word found
+                return head;
             }
         }
         head = head->next;
     }
-    return NULL; // return NULL if no matching word found
+    return NULL;
 }
 
 
@@ -216,7 +233,6 @@ void print_list()
 }
 
   void delete_list() {
- 
     struct word* current = &words[0];
     // struct word* current = head;
     while (current != NULL) {
@@ -233,7 +249,7 @@ memset(current->prefix, 0, 0);
   }
 
 int upperInChar(char sentence[4], int length) {
-  printf("heres my sentence in upperInChar function \t %s\n", sentence);
+  printf("heres my sentence in upperInChar function \t %s \n", sentence);
   int upperCount = 0; 
   // for (int i = 0; i < length; i++) {
     for (int i = 0; i < strlen(sentence); i++) {
@@ -319,11 +335,11 @@ int main(void)
             // }
         
 int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length);
-        printf("searchsentence_is_upper: %d\t", searchsentence_is_upper);
+        printf("searchsentence_is_upper: %d\t \n\n", searchsentence_is_upper);
                   if (searchsentence_is_upper == 0) {
-                    printf("no caps");                    
+                    printf("no caps in the search \n \n");                    
                   } else if (searchsentence_is_upper == 1) {
-                    printf("capital letters included\n ");
+                    printf("capital letters included in the search\n ");
                   }
                   // * * searchsentence1 uppercase based searching
   // if you have an F uppercase in search. have to be insensitive and dont lowercase char
@@ -331,7 +347,7 @@ int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length
 struct word* result = search_word_one(searchsentence1, strlen(searchsentence1));
         
     if (result != NULL) {
-        printf("prefix:\t %s length:\t %d\n", result->prefix, result->length);
+printf("search results --- prefix:\t  %s length:\t %d\n\n", result->prefix, result->length);
     } else {
         goto firstSearch;
     }
