@@ -1,3 +1,6 @@
+// vanilla chocolate strawberry rumraisin pistachio rockyroad bananasplit mint moosetracks
+// one of the neighbors has a dog but almost everyone in the Neighborhood has cats
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
