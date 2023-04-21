@@ -236,7 +236,7 @@ int upperInChar(char sentence[4], int length) {
   printf("heres my sentence in upperInChar function \t %s\n", sentence);
   int upperCount = 0; 
   // for (int i = 0; i < length; i++) {
-    for (int i = 0; i < sizeof(sentence); i++) {
+    for (int i = 0; i < strlen(sentence); i++) {
     if (isupper(sentence[i])) {
       upperCount++;
       printf("sentence[i]: %c, upperCount: %d\n ", sentence[i], upperCount);
