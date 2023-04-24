@@ -1,7 +1,7 @@
 // vanilla chocolate strawberry rumraisin pistachio rockyroad bananasplit mint moosetracks
 // one of the neighbors has a dog but almost everyone in the Neighborhood has cats
 
-#include <stdio.h>
+#include <stdio.h>nm
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -56,15 +56,14 @@ printf("* * * * * search character: \t %s \t\t\t search results below: \n", sear
             }
             if (matches) {
                 // do something with matching words
-
+                printf("search results. - - - - - - - - - \n");
+                printf("prefix: %s length: %d \n ", head->prefix, head->length);
+                printf("search results. - - - - - - - - - \n \n\n\n");
             }
         }
         head = head->next;
     }
     // do something with non-matching words in noMatchArr
-                    printf("search results. - - - - - - - - - \n");
-                printf("prefix: %s length: %d \n ", head->prefix, head->length);
-                printf("search results. - - - - - - - - - \n \n\n\n");
     return prefixArr;
 }
 
@@ -90,14 +89,14 @@ char* search_word_insensitive(char* search, int length)
             }
             if (matches) {
                 // do something with matching words
+                printf("search results. - - - - - - - - - \n");
+                printf("prefix: %s length: %d \n ", head->prefix, head->length);
+                printf("search results. - - - - - - - - - \n \n\n\n");
             }
         }
         head = head->next;
     }
     // do something with non-matching words in noMatchArr
-                    printf("search results. - - - - - - - - - \n");
-                printf("prefix: %s length: %d \n ", head->prefix, head->length);
-                printf("search results. - - - - - - - - - \n \n\n\n");
     return prefixArr;
 }
 
@@ -314,16 +313,18 @@ int main(void)
     }
 
     // Sort the words alphabetically:
-    for (int k = 0; k < i-1; k++) {
-        for (int l = k+1; l < i; l++) {
-            if (strcmp(words[k].prefix, words[l].prefix) > 0) {
-                // Swap the words:
-                struct word temp = words[k];
-                words[k] = words[l];
-                words[l] = temp;
-            }
+    // Sort the words alphabetically:
+for (int k = 0; k < i-1; k++) {
+    for (int l = k+1; l < i; l++) {
+        if (strcasecmp(words[k].prefix, words[l].prefix) > 0) {
+            // Swap the words:
+            struct word temp = words[k];
+            words[k] = words[l];
+            words[l] = temp;
         }
     }
+}
+  
     // Update the pointers in the linked list:
     for (int k = 0; k < i-1; k++) {
         words[k].next = &words[k+1];
@@ -367,7 +368,6 @@ printf("search results --- prefix:\t  %s length:\t %d\n\n", result->prefix, resu
     if (search_again == 'y' || search_again == 'Y') {
       goto firstSearch;
     }
-       
         break;
       } else {
         printf("there is no linked list data to present: \n");
@@ -432,7 +432,11 @@ printf("capitalization matters. search up to 4 letters please: \n");
             char* prefix = search_word(searchsentence2, strlen(searchsentence2));
             // printf("My Returned Search Result: \t %s\n", prefix);
             head = &words[0];
-            search_word_insensitive(searchsentence2, strlen(searchsentence2));
+           search_word_insensitive(searchsentence2, strlen(searchsentence2));
+          
+          // char* my_search = search_word_insensitive(searchsentence2, strlen(searchsentence2));
+          // invoking cb and storing as pointer is causing problem with loop on code line 369
+          // printf("search characters: lets see : %s \n", my_search);
             printf("* * * * * * * search results above \n");
             ch = 'G';
         }
