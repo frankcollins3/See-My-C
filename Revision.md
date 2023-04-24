@@ -350,8 +350,10 @@ for (int k = 0; k < i-1; k++) {
           char searchsentence1[4];
       printf("please search up to the first four letters. \n");
             // fgets(searchsentence1, 4, stdin);
-            scanf(" %[^\n]", searchsentence1);
-            int searchsentence1Length = sizeof(searchsentence1);
+            // scanf(" %[^\n]", searchsentence1);
+        fgets(searchsentence1, 5, stdin);
+int searchsentence1Length = strlen(searchsentence1) >= 4 ? 4 : strlen(searchsentence1);
+        printf("search sentence: %s length: %d \n",searchsentence1, searchsentence1Length);
        
 int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length);
         printf("searchsentence_is_upper: %d\t \n\n", searchsentence_is_upper);
