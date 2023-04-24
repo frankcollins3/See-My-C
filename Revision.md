@@ -291,8 +291,15 @@ int main(void)
     // Parse the sentence and add each word to the linked list:
     for (int j = 0; j < sentence_len; j++) {
         char c = sentence[j];
-        if (c == ' ' || c == '\n') {
+  if (c == ' ' || c == '\n' || strpbrk(word, "!?*&%") != NULL ) {
             // Finish the current word and add it to the list:
+          if (strpbrk(word, "!@#$%^&*()_+-=?<>")) {
+  printf("No special characters Please! The program aborted. words only, kindly \n");  
+            break; // repeats without this.
+            delete_list();
+            goto beginning;
+            // this doesn't uninitialize the array but I wanted to show the effort. 
+          }
             words[i].length = word_index;
       strncpy(words[i].prefix, word, words[i].length >= 4 ? 4 : words[i].length);
             i++;
