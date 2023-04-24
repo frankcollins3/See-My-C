@@ -22,7 +22,7 @@ struct node {
 };
 
 struct word *head = ( struct word * ) NULL;
-struct word *end = (struct word * ) NULL;
+struct word *end = ( struct word * ) NULL;
 
 struct word words[MAX_WORDS];
 char sentence[100];
@@ -38,8 +38,9 @@ char* search_word(char* search, int length)
     static char prefixArr[100];
     struct noMatch noMatchArr[100];
     int noMatchIndex = 0;
-    
+   
 printf("* * * * * search character: \t %s \t\t\t search results below: \n", search);
+ 
     char matchArr[length];
     head = &words[0];
     while (head != NULL) {
@@ -55,14 +56,15 @@ printf("* * * * * search character: \t %s \t\t\t search results below: \n", sear
             }
             if (matches) {
                 // do something with matching words
-                printf("search results. - - - - - - - - - \n");
-                printf("prefix: %s length: %d \n ", head->prefix, head->length);
-                printf("search results. - - - - - - - - - \n \n\n\n");
+
             }
         }
         head = head->next;
     }
     // do something with non-matching words in noMatchArr
+                    printf("search results. - - - - - - - - - \n");
+                printf("prefix: %s length: %d \n ", head->prefix, head->length);
+                printf("search results. - - - - - - - - - \n \n\n\n");
     return prefixArr;
 }
 
@@ -88,14 +90,14 @@ char* search_word_insensitive(char* search, int length)
             }
             if (matches) {
                 // do something with matching words
-                printf("search results. - - - - - - - - - \n");
-                printf("prefix: %s length: %d \n ", head->prefix, head->length);
-                printf("search results. - - - - - - - - - \n \n\n\n");
             }
         }
         head = head->next;
     }
     // do something with non-matching words in noMatchArr
+                    printf("search results. - - - - - - - - - \n");
+                printf("prefix: %s length: %d \n ", head->prefix, head->length);
+                printf("search results. - - - - - - - - - \n \n\n\n");
     return prefixArr;
 }
 
@@ -254,7 +256,7 @@ memset(current->prefix, 0, 0);
 
 int upperInChar(char sentence[4], int length) {
   printf("heres my sentence in upperInChar function \t %s \n", sentence);
-  int upperCount = 0; 
+  int upperCount = 0;
   // for (int i = 0; i < length; i++) {
     for (int i = 0; i < strlen(sentence); i++) {
     if (isupper(sentence[i])) {
@@ -273,29 +275,27 @@ int main(void)
 {
     beginning:
     init_words();
-    printf("math: {minimum:concept}{maximum:prob-solv}15mins!solve?lookup\n");
-    printf("simple enough instructions:computer can do anything\n");
+    printf("simple instructions:computer do anything. Please Enter Sentence: \n");
     // scanf ("%f",&x);
     // scanf("%[^\n]s", sentence);
-
+    
       fgets(sentence, sizeof(sentence), stdin);
     printf("Here's your sentence: %s\n", sentence);
 
     // Initialize the list of words:
-    init_words();
-    
+   
     char word[MAX_WORDS_LENGTH];
     int i = 0;
     int word_index = 0;
     int sentence_len = strlen(sentence);
-    
+   
     // Parse the sentence and add each word to the linked list:
     for (int j = 0; j < sentence_len; j++) {
         char c = sentence[j];
         if (c == ' ' || c == '\n') {
             // Finish the current word and add it to the list:
             words[i].length = word_index;
-            strncpy(words[i].prefix, word, words[i].length >= 4 ? 4 : words[i].length);
+      strncpy(words[i].prefix, word, words[i].length >= 4 ? 4 : words[i].length);
             i++;
             word_index = 0;
         } else {
@@ -324,13 +324,12 @@ int main(void)
             }
         }
     }
-
     // Update the pointers in the linked list:
     for (int k = 0; k < i-1; k++) {
         words[k].next = &words[k+1];
     }
     words[i-1].next = NULL;
-    
+   
     // alphabetize(&words[0]);
     print_list();
 
@@ -345,14 +344,7 @@ int main(void)
             // fgets(searchsentence1, 4, stdin);
             scanf(" %[^\n]", searchsentence1);
             int searchsentence1Length = sizeof(searchsentence1);
-            // for (int i = 0; i < sizeof(searchsentence1); i++) {
-            //       if (isupper(searchsentence1[i])) {
-            //           // case sensitive. 
-            //         printf("there are capital letters \n");
-            //         break;
-            //       } 
-            // }
-        
+       
 int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length);
         printf("searchsentence_is_upper: %d\t \n\n", searchsentence_is_upper);
                   if (searchsentence_is_upper == 0) {
@@ -362,9 +354,9 @@ int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length
                   }
                   // * * searchsentence1 uppercase based searching
   // if you have an F uppercase in search. have to be insensitive and dont lowercase char
-        
+       
 struct word* result = search_word_one(searchsentence1, strlen(searchsentence1));
-        
+       
     if (result != NULL) {
 printf("search results --- prefix:\t  %s length:\t %d\n\n", result->prefix, result->length);
     } else {
@@ -375,14 +367,14 @@ printf("search results --- prefix:\t  %s length:\t %d\n\n", result->prefix, resu
     if (search_again == 'y' || search_again == 'Y') {
       goto firstSearch;
     }
-        
+       
         break;
       } else {
         printf("there is no linked list data to present: \n");
         break;
       }
     }
-  
+ 
     do {
 // printf("linked list data presented below: {prefix: up to 4 letters} {length: of word}  \n ");
 
@@ -396,7 +388,7 @@ printf("linked list data presented below: {prefix: up to 4 letters} {length: of 
         break;
       }
     }
-      
+     
         print_list();
         printf("\n \n \n");
 // printf("below is an input that interacts with a linked list.\n");
@@ -459,7 +451,6 @@ printf("capitalization matters. search up to 4 letters please: \n");
     printf ("(g | G) to go again please.\n");
             scanf(" %c", &ch);
         }
-
 
     } while (ch == 'g' || ch == 'G');
     printf("thanks for playing");
