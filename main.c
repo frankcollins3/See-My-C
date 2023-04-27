@@ -17,6 +17,7 @@
 #define MAG "\e[0;35m"
 #define CYN "\e[0;36m"
 #define WHT "\e[0;37m"
+// printf("This text is " GRN "green" WHT " and this text is white.\n");
 
 struct word {
   int length;
@@ -506,7 +507,7 @@ firstSearch: // nice. goto working as intended at this moment.
   } while (ch == 'g' || ch == 'G');
 fin:
   if (list == 'f') {
-    printf("how did you get here? way to finish strong! \n");
+    printf("howd you get here? way to finish strong! \n");
   } else {
     printf("thanks for playing \n");
   }
