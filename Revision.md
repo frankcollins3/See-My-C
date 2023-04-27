@@ -300,6 +300,20 @@ void print_intro_instructions() {
   // first search prompt.
 }
 
+void center_text(char *text) {
+  struct winsize w;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // Get console size
+  int text_len = strlen(text);
+  int center_pos = (w.ws_col - text_len) / 2; // Calculate center position
+  for (int i = 0; i < center_pos; i++) {
+    printf(" "); // Print spaces before text
+  }
+  printf("%s\n", text); // Print centered text
+}
+  // center_text("wow its relaly gonna be a big show"); // 
+  // printf("This text is " GRN "green" WHT " and this text is white.\n");
+
+
 int main(void) {
 beginning:
   init_words();
