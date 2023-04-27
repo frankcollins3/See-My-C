@@ -1,7 +1,7 @@
 // vanilla chocolate strawberry rumraisin pistachio rockyroad bananasplit mint moosetracks
 // one of the neighbors has a dog but almost everyone in the Neighborhood has cats
 
-#include <stdio.h>nm
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -138,8 +138,8 @@ struct word* search_word_one(char* search, int length)
     return NULL;
 }
 
-
-void swap(struct word* a, struct word* b) {
+void swap(struct word* a, struct word* b) 
+{
     int temp_length = a->length;
     char temp_prefix[5];
     strncpy(temp_prefix, a->prefix, 4);
@@ -155,7 +155,8 @@ void swap(struct word* a, struct word* b) {
 }
 
 // Function to sort the list in alphabetical order
-void alphabetize(struct word* head) {
+void alphabetize(struct word* head) 
+{
     struct word* current = head;
     struct word* next = NULL;
 
@@ -177,8 +178,6 @@ void alphabetize(struct word* head) {
         next = current;
     } while (swapped);
 }
-
-
 
 void add_word(char* prefix, int length)
 {
@@ -214,8 +213,6 @@ void add_word(char* prefix, int length)
     alphabetize(&words[0]);
 }
 
-
-
 void init_words()
 {
     for (int i = 0; i < MAX_WORDS; i++) {
@@ -237,7 +234,8 @@ void print_list()
     }
 }
 
-  void delete_list() {
+void delete_list()
+{
     struct word* current = &words[0];
     // struct word* current = head;
     while (current != NULL) {
@@ -253,8 +251,9 @@ memset(current->prefix, 0, 0);
     print_list();
   }
 
-int upperInChar(char sentence[4], int length) {
-  printf("heres my sentence in upperInChar function \t %s \n", sentence);
+int upperInChar(char sentence[4], int length)
+{
+  // printf("heres my sentence in upperInChar function \t %s \n", sentence);
   int upperCount = 0;
   // for (int i = 0; i < length; i++) {
     for (int i = 0; i < strlen(sentence); i++) {
@@ -270,18 +269,49 @@ int upperInChar(char sentence[4], int length) {
   }
 }
 
+void print_intro_instructions()
+{
+          printf("please type in a :sentence: and press enter to submit it.\n");
+printf("Submitted data from the input will be saved as a linked list of struct word { } data: \n");
+printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word length\n");
+printf(" - - - - - - -        - - - - - - -        - - - - - - -       \n\n ");  
+    
+    
+// printf(": \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t");
+            printf("\n ");
+        fgets(sentence, sizeof(sentence), stdin); 
+        printf("\n ");
+        // printf(": \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t ");
+
+// if curious, uncomment the print(\t); ... it starts skipping through the first search prompt.
+}
+
 int main(void)
 {
     beginning:
     init_words();
-    printf("simple instructions:computer do anything. Please Enter Sentence: \n");
-    // scanf ("%f",&x);
-    // scanf("%[^\n]s", sentence);
+
+    // print_intro_instructions();
+  
+    // printf(" your sentence is above: indicated by it's enclosement of colons for brevity / easy reading \n");
     
-      fgets(sentence, sizeof(sentence), stdin);
-    printf("Here's your sentence: %s\n", sentence);
+        printf("please type in a :sentence: and press enter to submit it.\n");
+printf("Submitted data from the input will be saved as a linked list of struct word { } data: \n");
+printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word length\n");
+printf(" - - - - - - -        - - - - - - -        - - - - - - -       \n\n ");  
+    
+    
+// printf(": \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t");
+            printf("\n ");
+        fgets(sentence, sizeof(sentence), stdin); 
+        printf("\n ");
+        // printf(": \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t ");
+  
+    // printf("\n"); 
+  // weird. if you put line 287 \n into line 286 after last \t the program starts skipping. 
 
     // Initialize the list of words:
+   
    
     char word[MAX_WORDS_LENGTH];
     int i = 0;
@@ -293,7 +323,7 @@ int main(void)
         char c = sentence[j];
   if (c == ' ' || c == '\n' || strpbrk(word, "!?*&%") != NULL ) {
             // Finish the current word and add it to the list:
-          if (strpbrk(word, "!@#$%^&*()_+-=?<>")) {
+          if (strpbrk(word, "!@#$%^&*()_+-=?<>.,|")) {
   printf("No special characters Please! The program aborted. words only, kindly \n");  
             break; // repeats without this.
             delete_list();
@@ -350,15 +380,14 @@ for (int k = 0; k < i-1; k++) {
           char searchsentence1[4];
       printf("please search up to the first four letters. \n");
             // fgets(searchsentence1, 4, stdin);
-            // scanf(" %[^\n]", searchsentence1);
-        fgets(searchsentence1, 5, stdin);
+            scanf(" %[^\n]", searchsentence1);
 int searchsentence1Length = strlen(searchsentence1) >= 4 ? 4 : strlen(searchsentence1);
-        printf("search sentence: %s length: %d \n",searchsentence1, searchsentence1Length);
+    
        
 int searchsentence_is_upper = upperInChar(searchsentence1, searchsentence1Length);
-        printf("searchsentence_is_upper: %d\t \n\n", searchsentence_is_upper);
+        // printf("searchsentence_is_upper: %d\t \n\n", searchsentence_is_upper);
                   if (searchsentence_is_upper == 0) {
-                    printf("no caps in the search \n \n");                    
+                    // printf("no caps in the search \n \n");                    
                   } else if (searchsentence_is_upper == 1) {
                     printf("capital letters included in the search\n ");
                   }
@@ -460,11 +489,20 @@ printf("capitalization matters. search up to 4 letters please: \n");
             // printf("Screen cleared!\n");
             ch = 'G';
       // goto beginning;
-        } else {
+        } else if (list == 'f') {
+            goto fin;
+        }
+        else {
     printf ("(g | G) to go again please.\n");
             scanf(" %c", &ch);
         }
 
     } while (ch == 'g' || ch == 'G');
-    printf("thanks for playing");
+    fin:
+    if (list == 'f') { 
+    printf("howd you get here? way to finish strong! \n");
+    }
+    else {
+    printf("thanks for playing \n");
+    }
 }
