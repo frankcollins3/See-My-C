@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <termios.h>
-#include <sys/ioctl.h>
+
 
 // #include <conio.h>.   no clrscr() to [cls|clear] console.
 #define MAX_WORDS 100
@@ -298,6 +296,14 @@ void print_intro_instructions() {
   // first search prompt.
 }
 
+// void print(char *s, int newtab, int newline) 
+// print(char s) wont work it decays into a pointer. arg must be: *s || s[]
+void print(char s[], int newtab, int newline) 
+{
+    printf("my sentence:\t %s %c %s", s, newtab ? '\t' : '\0', newline ? "\n" : "\0");
+}
+    // print("sure!", 1, 1); invoke like so!
+
 int main(void) {
 beginning:
   init_words();
@@ -317,8 +323,7 @@ beginning:
     if (c == ' ' || c == '\n' || strpbrk(word, "!?*&%") != NULL) {
       // Finish the current word and add it to the list:
       if (strpbrk(word, "!@#$%^&*()_+-=?<>.,|")) {
-        printf("No special characters Please! The program aborted. words only, "
-               "kindly \n");
+print("no special characters please! Words only!", 0, 1);
         break; // repeats without this.
         delete_list();
         goto beginning;
@@ -501,7 +506,7 @@ firstSearch: // nice. goto working as intended at this moment.
   } while (ch == 'g' || ch == 'G');
 fin:
   if (list == 'f') {
-    printf("howd you get here? way to finish strong! \n");
+    printf("how did you get here? way to finish strong! \n");
   } else {
     printf("thanks for playing \n");
   }
