@@ -297,6 +297,19 @@ void print_intro_instructions() {
   // first search prompt.
 }
 
+void center_text(char *text) {
+  struct winsize w;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // Get console size
+  int text_len = strlen(text);
+  int center_pos = (w.ws_col - text_len) / 2; // Calculate center position
+  for (int i = 0; i < center_pos; i++) {
+    printf(" "); // Print spaces before text
+  }
+  printf("%s\n", text); // Print centered text
+}
+
+// * * * * * i have to combine the print and center_text functions * * * * * 
+
 // void print(char *s, int newtab, int newline) 
 // print(char s) wont work it decays into a pointer. arg must be: *s || s[]
 void print(char s[], int newtab, int newline) 
