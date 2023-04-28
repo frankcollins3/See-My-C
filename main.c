@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <termios.h>
+#include <sys/ioctl.h>
 
 
 // #include <conio.h>.   no clrscr() to [cls|clear] console.
@@ -17,6 +20,7 @@
 #define MAG "\e[0;35m"
 #define CYN "\e[0;36m"
 #define WHT "\e[0;37m"
+#define DUMMY "\0"
 // printf("This text is " GRN "green" WHT " and this text is white.\n");
 
 struct word {
@@ -277,27 +281,7 @@ void dash_across_screen() {
          "- - \n");
 }
 
-void print_intro_instructions() {
-  printf("please type in a :sentence: and press enter to submit it.\n");
-  printf("Submitted data from the input will be saved as a linked list of "
-         "struct word { } data: \n");
-  printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word length\n");
-  dash_across_screen();
-
-  // printf(": \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t :
-  // \t : \t : \t : \t : \t : \t : \t : \t : \t : \t");
-  printf("\n ");
-  fgets(sentence, sizeof(sentence), stdin);
-  printf("\n ");
-  dash_across_screen();
-  // printf(": \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t : \t :
-  // \t : \t : \t : \t : \t : \t : \t : \t : \t : \t ");
-
-  // if curious, uncomment the print(\t); ... it starts skipping through the
-  // first search prompt.
-}
-
-void center_text(char *text) {
+void center_text(char *text, int newtab, int newline) {
   struct winsize w;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // Get console size
   int text_len = strlen(text);
@@ -305,12 +289,32 @@ void center_text(char *text) {
   for (int i = 0; i < center_pos; i++) {
     printf(" "); // Print spaces before text
   }
-  printf("%s\n", text); // Print centered text
+  printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
+  
 }
+
+
+void print_intro_instructions() {
+  // printf("please type in a :sentence: and press enter to submit it.\n");
+  center_text("please type in a -sentence- and press enter to submit it", 0, 1);
+center_text("Submitted data from the input will be saved as a linked list of "
+         "struct word { } data:", 0, 1);
+  printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word length\n");
+  dash_across_screen();
+
+  // printf("\n ");
+  fgets(sentence, sizeof(sentence), stdin);
+  printf("\n ");
+  dash_across_screen();
+
+
+  // if curious, uncomment the print(\t); ... it starts skipping through the
+  // first search prompt.
+}
+
 
 // * * * * * i have to combine the print and center_text functions * * * * * 
 
-// void print(char *s, int newtab, int newline) 
 // print(char s) wont work it decays into a pointer. arg must be: *s || s[]
 void print(char s[], int newtab, int newline) 
 {
