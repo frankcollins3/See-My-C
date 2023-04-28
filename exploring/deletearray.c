@@ -78,6 +78,15 @@ int main(void) {
     }
     
     fgets(my_sen, sizeof(my_sen), stdin);
+    
+    for(int i = 0; i < sizeof(my_sen); i++) {
+        printf("%c \n", my_sen[i]);
+        
+        // if (i++ == "\0") { break; };
+        if (my_sen[i] == '\0') { break; };
+        // i++;
+    }
+    
     print(my_sen, 0, 1);
     
     // capture_sentence();
@@ -87,17 +96,3 @@ int main(void) {
     return 0;
     
 }
-
-// auto segfault if one were to put the code below as a callback. memory in static data structure is allocated at the end of the program. 
-// assuming goto deallocates the memory leads to the error. 
-
-    // print("please enter a sentence", 0, 1);
-    // char my_sen[MAX_WORD_LENGTH];
-    // for (int i = 0; i < sizeof(my_sen); i++) {
-    //     char Index = my_sen[i];
-    //     if (Index < 10) {
-    //         // print("hey how is you", 0, 1);
-    //         // printf("%d \n", Index); // cant do text theres no string.
-    //         i++;
-    //     }
-    // }
