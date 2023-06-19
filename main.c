@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+#include <time.h>
 #include <unistd.h>
 
 // #include <conio.h>.   no clrscr() to [cls|clear] console.
@@ -20,6 +21,22 @@
 #define CYN "\e[0;36m"
 #define WHT "\e[0;37m"
 #define DUMMY "\0"
+
+char *color_bucket[] = {GRN, YEL, BLU, MAG, CYN};
+
+char *get_random_color() {
+  // random number generator seeder
+  srand(time(NULL));
+  // get the size of color_bucket array  // arr.length() in js
+  int size = sizeof(color_bucket) / sizeof(color_bucket[0]);
+
+  // generate a random index within the range of the array
+  int random_index = rand() % size;
+
+  // color @ index
+  return color_bucket[random_index];
+}
+
 // printf("This text is " GRN "green" WHT " and this text is white.\n");
 
 struct word {
@@ -232,32 +249,6 @@ void init_words() {
   words[MAX_WORDS - 1].next = NULL;
 }
 
-void print_list() {
-  head = &words[0];
-  while (head != NULL) {
-    if (head->length != 0) {
-      printf("length:\t %d prefix:\t %s \n", head->length, head->prefix);
-    }
-    head = head->next;
-  }
-}
-
-void delete_list() {
-  struct word *current = &words[0];
-  // struct word* current = head;
-  while (current != NULL) {
-    struct word *next = current->next;
-    current->length = 0;
-    memset(current->prefix, 0, 0);
-    // memset(current->prefix, 0, sizeof(current->prefix));
-    current->next = NULL;
-    current = next;
-  }
-  // head = NULL;
-  // end = NULL;
-  print_list();
-}
-
 int upperInChar(char sentence[4], int length) {
   // printf("heres my sentence in upperInChar function \t %s \n", sentence);
   int upperCount = 0;
@@ -280,7 +271,7 @@ void dash_across_screen() {
          "- - \n");
 }
 
-void center_text(char *text, int newtab, int newline) {
+void center_text_no_args(char *text) {
   struct winsize w;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // Get console size
   int text_len = strlen(text);
@@ -288,25 +279,76 @@ void center_text(char *text, int newtab, int newline) {
   for (int i = 0; i < center_pos; i++) {
     printf(" "); // Print spaces before text
   }
-  printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
+  printf("%s \n", text);
+  // printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
+}
+
+void center_text_print_list(int head_length, char *head_prefix) {
+  struct winsize w;
+  char *randomColor = get_random_color();
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // Get console size
+  int text_len = strlen(head_prefix);
+  int center_pos = (w.ws_col - text_len) / 2; // Calculate center position
+  for (int i = 0; i < center_pos; i++) {
+    printf(" "); // Print spaces before text
+  }
+  // printf("length: \t %s %d" "prefix: \t %s %s \n", BLU, head_length,
+  // get_random_color(), head_prefix);
+  printf("length:\t" "%s %d \t", GRN, head->length);
+  printf(BLK);
+  printf("prefix:\t" "%s %s \n", get_random_color(), head->prefix);
+  printf(BLK);
+  printf("\n");
+  // printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
+}
+
+void print_list() {
+  head = &words[0];
+  while (head != NULL) {
+    if (head->length != 0) {
+      // printf("length:\t %d prefix:\t %s \n", head->length, head->prefix);
+      // center_text_no_args("length:\t %d prefix:\t %s \n");
+      center_text_print_list(head->length, head->prefix);
+    }
+    head = head->next;
+  }
+}
+
+void delete_list() {
+  struct word *current = &words[0];
+  // struct word* current = head;
+  while (current != NULL) {
+    struct word *next = current->next;
+    current->length = 0;
+    memset(current->prefix, 0, 0);
+    // memset(current->prefix, 0, sizeof(current->prefix));
+    current->next = NULL;
+    current = next;
+  }
+  // head = NULL;
+  // end = NULL;
+  print_list();
 }
 
 void print_intro_instructions() {
   // printf("please type in a :sentence: and press enter to submit it.\n");
-  center_text("please type in a -sentence- and press enter to submit it", 0, 1);
-  center_text("Submitted data from the input will be saved as a linked list of "
-              "struct word { } data:",
-              0, 1);
+  center_text_no_args(
+      "please type in a -sentence- and press enter to submit it");
+  center_text_no_args(
+      "Submitted data from the input will be saved as a linked list of "
+      "struct word { } data:");
   // printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word
   // length\n");
-  center_text("1: \t A prefix of up to 4 letters. \t 2: Entire word length \n",
-              0, 1);
-center_text("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n", 0, 1);
+  center_text_no_args(
+      "1: \t A prefix of up to 4 letters. \t 2: Entire word length \n");
+  center_text_no_args("- - - - - - - - - - - - - - - - - - - - - - - - - - - - "
+                      "- - - - - - - - \n");
 
   // printf("\n ");
   fgets(sentence, sizeof(sentence), stdin);
   printf("\n ");
-  center_text("dash \n", 0, 1);
+  center_text_no_args("- - - - - - - - - - - - - - - - - - - - - - - - - - - - "
+                      "- - - - - - - - \n");
 
   // if curious, uncomment the print(\t); ... it starts skipping through the
   // first search prompt.
@@ -340,7 +382,7 @@ beginning:
     if (c == ' ' || c == '\n' || strpbrk(word, "!?*&%") != NULL) {
       // Finish the current word and add it to the list:
       if (strpbrk(word, "!@#$%^&*()_+-=?<>.,|")) {
-        print("no special characters please! Words only!", 0, 1);
+        center_text_no_args("no special characters please! Words only!");
         break; // repeats without this.
         delete_list();
         goto beginning;
@@ -384,10 +426,10 @@ beginning:
   }
   words[i - 1].next = NULL;
 
-  // alphabetize(&words[0]);
+  alphabetize(&words[0]);
   print_list();
 
-firstSearch: // nice. goto working as intended at this moment.
+firstSearch: // goto working as intended at this moment.
   head = &words[0];
   while (head != NULL) {
     if (head->length > 1) {
