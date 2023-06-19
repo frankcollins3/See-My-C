@@ -294,9 +294,13 @@ void center_text_print_list(int head_length, char *head_prefix) {
   }
   // printf("length: \t %s %d" "prefix: \t %s %s \n", BLU, head_length,
   // get_random_color(), head_prefix);
-  printf("length:\t" "%s %d \t", GRN, head->length);
+  printf("length:\t"
+         "%s %d \t",
+         GRN, head->length);
   printf(BLK);
-  printf("prefix:\t" "%s %s \n", get_random_color(), head->prefix);
+  printf("prefix:\t"
+         "%s %s \n",
+         get_random_color(), head->prefix);
   printf(BLK);
   printf("\n");
   // printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
@@ -436,7 +440,10 @@ firstSearch: // goto working as intended at this moment.
 
       printf("\n\n\n");
       char searchsentence1[4];
-      printf("please search up to the first four letters. \n");
+      center_text_no_args("please" MAG " search" BLK " up to the first " MAG
+                          "four" BLK " letters.\n");
+
+      printf(BLK);
       // fgets(searchsentence1, 4, stdin);
       scanf(" %[^\n]", searchsentence1);
       int searchsentence1Length =
@@ -458,12 +465,14 @@ firstSearch: // goto working as intended at this moment.
           search_word_one(searchsentence1, strlen(searchsentence1));
 
       if (result != NULL) {
-        printf("search results --- prefix:\t  %s length:\t %d\n\n",
+        printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK
+               " length:\t " CYN "%d\n\n",
                result->prefix, result->length);
+        printf(BLK);
       } else {
         goto firstSearch;
       }
-      printf("would you like to search again? Y \n");
+      center_text_no_args("would you like to search again? Y \n");
       scanf(" %c", &search_again);
       if (search_again == 'y' || search_again == 'Y') {
         goto firstSearch;
