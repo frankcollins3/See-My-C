@@ -2,16 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <termios.h>
 #include <sys/ioctl.h>
-
+#include <termios.h>
+#include <unistd.h>
 
 // #include <conio.h>.   no clrscr() to [cls|clear] console.
 #define MAX_WORDS 100
 #define MAX_WORDS_LENGTH 1000
 
-//https://gist.github.com/RabaDabaDoba/145049536f815903c79944599c6f952a ANSI :) 
+// https://gist.github.com/RabaDabaDoba/145049536f815903c79944599c6f952a ANSI :)
 #define BLK "\e[0;30m" // these are escape codes like \t   &&  \n
 #define RED "\e[0;31m"
 #define GRN "\e[0;32m"
@@ -290,37 +289,37 @@ void center_text(char *text, int newtab, int newline) {
     printf(" "); // Print spaces before text
   }
   printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
-  
 }
-
 
 void print_intro_instructions() {
   // printf("please type in a :sentence: and press enter to submit it.\n");
   center_text("please type in a -sentence- and press enter to submit it", 0, 1);
-center_text("Submitted data from the input will be saved as a linked list of "
-         "struct word { } data:", 0, 1);
-  printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word length\n");
-  dash_across_screen();
+  center_text("Submitted data from the input will be saved as a linked list of "
+              "struct word { } data:",
+              0, 1);
+  // printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word
+  // length\n");
+  center_text("1: \t A prefix of up to 4 letters. \t 2: Entire word length \n",
+              0, 1);
+center_text("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n", 0, 1);
 
   // printf("\n ");
   fgets(sentence, sizeof(sentence), stdin);
   printf("\n ");
-  dash_across_screen();
-
+  center_text("dash \n", 0, 1);
 
   // if curious, uncomment the print(\t); ... it starts skipping through the
   // first search prompt.
 }
 
-
-// * * * * * i have to combine the print and center_text functions * * * * * 
+// * * * * * i have to combine the print and center_text functions * * * * *
 
 // print(char s) wont work it decays into a pointer. arg must be: *s || s[]
-void print(char s[], int newtab, int newline) 
-{
-    printf("my sentence:\t %s %c %s", s, newtab ? '\t' : '\0', newline ? "\n" : "\0");
+void print(char s[], int newtab, int newline) {
+  printf("my sentence:\t %s %c %s", s, newtab ? '\t' : '\0',
+         newline ? "\n" : "\0");
 }
-    // print("sure!", 1, 1); invoke like so!
+// print("sure!", 1, 1); invoke like so!
 
 int main(void) {
 beginning:
@@ -341,7 +340,7 @@ beginning:
     if (c == ' ' || c == '\n' || strpbrk(word, "!?*&%") != NULL) {
       // Finish the current word and add it to the list:
       if (strpbrk(word, "!@#$%^&*()_+-=?<>.,|")) {
-print("no special characters please! Words only!", 0, 1);
+        print("no special characters please! Words only!", 0, 1);
         break; // repeats without this.
         delete_list();
         goto beginning;
@@ -367,7 +366,6 @@ print("no special characters please! Words only!", 0, 1);
     i++;
   }
 
-  // Sort the words alphabetically:
   // Sort the words alphabetically:
   for (int k = 0; k < i - 1; k++) {
     for (int l = k + 1; l < i; l++) {
