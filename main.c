@@ -279,13 +279,13 @@ void center_text_no_args(char *text) {
   for (int i = 0; i < center_pos; i++) {
     printf(" "); // Print spaces before text
   }
-  printf("%s \n", text);
+  printf("%s", text);
   // printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
 }
 
 void center_text_print_list(int head_length, char *head_prefix) {
   struct winsize w;
-  char *randomColor = get_random_color();
+  char *random_color = get_random_color();
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // Get console size
   int text_len = strlen(head_prefix);
   int center_pos = (w.ws_col - text_len) / 2; // Calculate center position
@@ -294,16 +294,29 @@ void center_text_print_list(int head_length, char *head_prefix) {
   }
   // printf("length: \t %s %d" "prefix: \t %s %s \n", BLU, head_length,
   // get_random_color(), head_prefix);
-  printf("length:\t"
+  printf("original-length:\t"
          "%s %d \t",
-         GRN, head->length);
+         CYN, head->length);
   printf(BLK);
   printf("prefix:\t"
          "%s %s \n",
-         get_random_color(), head->prefix);
+         CYN, head->prefix);
   printf(BLK);
   printf("\n");
   // printf("%s %c %s", text, newtab ? '\t' : '\0', newline ? "\n" : "\0");
+}
+
+void center_text_int(int num) {
+  struct winsize w;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // Get console size
+  char num_str[12]; // Assuming a maximum of 12 digits for the number
+  snprintf(num_str, sizeof(num_str), "%d", num); // Convert num to string
+  int text_len = strlen(num_str);
+  int center_pos = (w.ws_col - text_len) / 2; // Calculate center position
+  for (int i = 0; i < center_pos; i++) {
+    printf(" "); // Print spaces before text
+  }
+  printf("%d\n", num);
 }
 
 void print_list() {
@@ -313,6 +326,7 @@ void print_list() {
       // printf("length:\t %d prefix:\t %s \n", head->length, head->prefix);
       // center_text_no_args("length:\t %d prefix:\t %s \n");
       center_text_print_list(head->length, head->prefix);
+      printf("\n");
     }
     head = head->next;
   }
@@ -336,15 +350,13 @@ void delete_list() {
 
 void print_intro_instructions() {
   // printf("please type in a :sentence: and press enter to submit it.\n");
-  center_text_no_args(
-      "please type in a -sentence- and press enter to submit it");
+center_text_no_args( "please type in a -sentence- and press enter to submit it"); printf("\n");
   center_text_no_args(
       "Submitted data from the input will be saved as a linked list of "
-      "struct word { } data:");
+      "struct word { } data:"); printf("\n");
   // printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word
   // length\n");
-  center_text_no_args(
-      "1: \t A prefix of up to 4 letters. \t 2: Entire word length \n");
+center_text_no_args( "1: \t A prefix of up to 4 letters. \t 2: Entire word length \n"); printf("\n");
   center_text_no_args("- - - - - - - - - - - - - - - - - - - - - - - - - - - - "
                       "- - - - - - - - \n");
 
@@ -386,7 +398,7 @@ beginning:
     if (c == ' ' || c == '\n' || strpbrk(word, "!?*&%") != NULL) {
       // Finish the current word and add it to the list:
       if (strpbrk(word, "!@#$%^&*()_+-=?<>.,|")) {
-        center_text_no_args("no special characters please! Words only!");
+        center_text_no_args("no special characters please! Words only! \n");
         break; // repeats without this.
         delete_list();
         goto beginning;
@@ -465,10 +477,15 @@ firstSearch: // goto working as intended at this moment.
           search_word_one(searchsentence1, strlen(searchsentence1));
 
       if (result != NULL) {
-        printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK
-               " length:\t " CYN "%d\n\n",
+printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK " length:\t " CYN "%d\n\n",
                result->prefix, result->length);
-        printf(BLK);
+              printf(BLK);
+// center_text_no_args("search" CYN " results" BLK " --- prefix:\t" BLK); 
+//         printf(CYN); center_text_no_args(result->prefix); printf(BLK);
+//         printf(CYN); center_text_int(result->length); printf(BLK);
+//         printf("\t");
+//         printf(BLK);
+
       } else {
         goto firstSearch;
       }
@@ -479,7 +496,7 @@ firstSearch: // goto working as intended at this moment.
       }
       break;
     } else {
-      printf("there is no linked list data to present: \n");
+      center_text_no_args("there is no linked list data to present: \n");
       break;
     }
   }
