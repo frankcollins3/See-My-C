@@ -62,112 +62,6 @@ struct noMatch {
   char noMatchWord[100];
 };
 
-char *search_word(char *search, int length) {
-  static char prefixArr[100];
-  struct noMatch noMatchArr[100];
-  int noMatchIndex = 0;
-
-  printf("* * * * * search character: \t %s \t\t\t search results below: \n",
-         search);
-
-  char matchArr[length];
-  head = &words[0];
-  while (head != NULL) {
-    if (head->length != 0) {
-      int matches = 1;
-      for (int j = 0; j < length; j++) {
-        if (head->prefix[j] != search[j]) {
-          matches = 0;
-          strcpy(noMatchArr[noMatchIndex].noMatchWord, head->prefix);
-          noMatchIndex++;
-          break;
-        }
-      }
-      if (matches) {
-        // do something with matching words
-        printf("search results. - - - - - - - - - \n");
-        printf("prefix: %s length: %d \n ", head->prefix, head->length);
-        printf("search results. - - - - - - - - - \n \n\n\n");
-      }
-    }
-    head = head->next;
-  }
-  // do something with non-matching words in noMatchArr
-  return prefixArr;
-}
-
-char *search_word_insensitive(char *search, int length) {
-  static char prefixArr[100];
-  struct noMatch noMatchArr[100];
-  int noMatchIndex = 0;
-
-  printf("* * * * * search character: \t %s \t\t\t search results below: \n",
-         search);
-  char matchArr[length];
-  head = &words[0];
-  while (head != NULL) {
-    if (head->length != 0) {
-      int matches = 1;
-      for (int j = 0; j < length; j++) {
-        if (tolower(head->prefix[j]) !=
-            tolower(search[j])) { // convert both characters to lowercase before
-                                  // comparison
-          matches = 0;
-          strcpy(noMatchArr[noMatchIndex].noMatchWord, head->prefix);
-          noMatchIndex++;
-          break;
-        }
-      }
-      if (matches) {
-        // do something with matching words
-        printf("search results. - - - - - - - - - \n");
-        printf("prefix: %s length: %d \n ", head->prefix, head->length);
-        printf("search results. - - - - - - - - - \n \n\n\n");
-      }
-    }
-    head = head->next;
-  }
-  // do something with non-matching words in noMatchArr
-  return prefixArr;
-}
-
-struct word *search_word_one(char *search, int length) {
-  struct word *head = &words[0];
-  int has_uppercase = 0;
-
-  // Check if search has uppercase characters
-  for (int i = 0; i < length; i++) {
-    if (isupper(search[i])) {
-      has_uppercase = 1;
-      break;
-    }
-  }
-
-  // Convert search to lowercase if there are any uppercase characters
-  if (has_uppercase) {
-    for (int i = 0; i < length; i++) {
-      search[i] = tolower(search[i]);
-    }
-  }
-
-  while (head != NULL) {
-    if (head->length != 0) {
-      int matches = 1;
-      for (int j = 0; j < length && j < 4; j++) {
-        if (tolower(head->prefix[j]) != search[j]) {
-          matches = 0;
-          break;
-        }
-      }
-      if (matches) {
-        return head;
-      }
-    }
-    head = head->next;
-  }
-  return NULL;
-}
-
 void swap(struct word *a, struct word *b) {
   int temp_length = a->length;
   char temp_prefix[5];
@@ -316,7 +210,7 @@ void center_text_int(int num) {
   for (int i = 0; i < center_pos; i++) {
     printf(" "); // Print spaces before text
   }
-  printf("%d\n", num);
+  printf("%d", num);
 }
 
 void print_list() {
@@ -348,15 +242,156 @@ void delete_list() {
   print_list();
 }
 
+char *search_word(char *search, int length) {
+  static char prefixArr[100];
+  struct noMatch noMatchArr[100];
+  int noMatchIndex = 0;
+
+  // printf("* * * * * search character: \t %s \t\t\t search results below:);
+  // \n", search);
+  // center_text_no_args(" * * * * * search character: \t");
+  center_text_no_args(search);
+  printf("\n");
+
+  char matchArr[length];
+  head = &words[0];
+  while (head != NULL) {
+    if (head->length != 0) {
+      int matches = 1;
+      for (int j = 0; j < length; j++) {
+        if (head->prefix[j] != search[j]) {
+          matches = 0;
+          strcpy(noMatchArr[noMatchIndex].noMatchWord, head->prefix);
+          noMatchIndex++;
+          break;
+        }
+      }
+      if (matches) {
+        // do something with matching words
+        // center_text_no_args("search results. - - - - - - - - - \n");
+        // printf("prefix: %s length: %d \n ", head->prefix, head->length);
+
+        printf(CYN);
+        printf("\n");
+        printf("prefix: %s length: %d \n ", head->prefix, head->length);
+        printf(BLK);
+        printf("\n");
+        
+        printf("\n");
+        // center_text_no_args("prefix: \t");
+        // // printf(CYN);
+        // center_text_no_args(head->prefix);
+        // // printf(BLK);
+        // center_text_no_args("length\t");
+        // // printf(CYN);
+        // center_text_int(head->length);
+        // // printf(BLK);
+        // center_text_no_args("search results. - - - - - - - - - \n \n\n\n");
+      }
+    }
+    head = head->next;
+  }
+  // do something with non-matching words in noMatchArr
+  return prefixArr;
+}
+
+char *search_word_insensitive(char *search, int length) {
+  static char prefixArr[100];
+  struct noMatch noMatchArr[100];
+  int noMatchIndex = 0;
+
+  // center_text_no_args("* * * * * search character:");
+  center_text_no_args(search);
+
+  char matchArr[length];
+  head = &words[0];
+  while (head != NULL) {
+    if (head->length != 0) {
+      int matches = 1;
+      for (int j = 0; j < length; j++) {
+        if (tolower(head->prefix[j]) !=
+            tolower(search[j])) { // convert both characters to lowercase before
+                                  // comparison
+          matches = 0;
+          strcpy(noMatchArr[noMatchIndex].noMatchWord, head->prefix);
+          noMatchIndex++;
+          break;
+        }
+      }
+      if (matches) {
+        // do something with matching words
+        // center_text_no_args("search results. - - - - - - - - - \n");
+        printf(CYN);
+        printf("\n");
+        printf("prefix: %s length: %d \n ", head->prefix, head->length);
+        printf(BLK);
+        printf("\n");
+
+        // center_text_no_args("prefix \t");
+        // center_text_no_args(head->prefix);
+        // printf("\t");
+        // center_text_int(head->length);
+        // printf("\n");
+        // center_text_no_args("search results. - - - - - - - - - \n \n\n\n");
+      }
+    }
+    head = head->next;
+  }
+  // do something with non-matching words in noMatchArr
+  return prefixArr;
+}
+
+struct word *search_word_one(char *search, int length) {
+  struct word *head = &words[0];
+  int has_uppercase = 0;
+
+  // Check if search has uppercase characters
+  for (int i = 0; i < length; i++) {
+    if (isupper(search[i])) {
+      has_uppercase = 1;
+      break;
+    }
+  }
+
+  // Convert search to lowercase if there are any uppercase characters
+  if (has_uppercase) {
+    for (int i = 0; i < length; i++) {
+      search[i] = tolower(search[i]);
+    }
+  }
+
+  while (head != NULL) {
+    if (head->length != 0) {
+      int matches = 1;
+      for (int j = 0; j < length && j < 4; j++) {
+        if (tolower(head->prefix[j]) != search[j]) {
+          matches = 0;
+          break;
+        }
+      }
+      if (matches) {
+        return head;
+      }
+    }
+    head = head->next;
+  }
+  return NULL;
+}
+
 void print_intro_instructions() {
   // printf("please type in a :sentence: and press enter to submit it.\n");
-center_text_no_args( "please type in a -sentence- and press enter to submit it"); printf("\n");
+  center_text_no_args(
+      "please type in a -sentence- and press enter to submit it");
+  printf("\n");
   center_text_no_args(
       "Submitted data from the input will be saved as a linked list of "
-      "struct word { } data:"); printf("\n");
+      "struct word { } data:");
+  printf("\n");
   // printf("1:\t A prefix of up to 4 letters. \t | \t 2: Entire word
   // length\n");
-center_text_no_args( "1: \t A prefix of up to 4 letters. \t 2: Entire word length \n"); printf("\n");
+  center_text_no_args(
+      "1: \t A prefix of up to 4 letters. \t 2: Entire word length \n");
+  printf("\n");
   center_text_no_args("- - - - - - - - - - - - - - - - - - - - - - - - - - - - "
                       "- - - - - - - - \n");
 
@@ -458,6 +493,7 @@ firstSearch: // goto working as intended at this moment.
       printf(BLK);
       // fgets(searchsentence1, 4, stdin);
       scanf(" %[^\n]", searchsentence1);
+      printf("\n");
       int searchsentence1Length =
           strlen(searchsentence1) >= 4 ? 4 : strlen(searchsentence1);
 
@@ -475,22 +511,24 @@ firstSearch: // goto working as intended at this moment.
 
       struct word *result =
           search_word_one(searchsentence1, strlen(searchsentence1));
-
+      printf("\n");
       if (result != NULL) {
-printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK " length:\t " CYN "%d\n\n",
+        printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK
+               " length:\t " CYN "%d\n\n",
                result->prefix, result->length);
-              printf(BLK);
-// center_text_no_args("search" CYN " results" BLK " --- prefix:\t" BLK); 
-//         printf(CYN); center_text_no_args(result->prefix); printf(BLK);
-//         printf(CYN); center_text_int(result->length); printf(BLK);
-//         printf("\t");
-//         printf(BLK);
+        printf(BLK);
+        // center_text_no_args("search" CYN " results" BLK " --- prefix:\t"
+        // BLK);
+        //         printf(CYN); center_text_no_args(result->prefix);
+        //         printf(BLK); printf(CYN); center_text_int(result->length);
+        //         printf(BLK); printf("\t"); printf(BLK);
 
       } else {
         goto firstSearch;
       }
       center_text_no_args("would you like to search again? Y \n");
       scanf(" %c", &search_again);
+      printf("\n");
       if (search_again == 'y' || search_again == 'Y') {
         goto firstSearch;
       }
@@ -508,11 +546,12 @@ printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK " length:\t " C
     head = &words[0];
     while (head != NULL) {
       if (head->length > 1) {
-        printf("linked list data presented below: {prefix: up to 4 letters} "
-               "{length: of word}\n\n\n");
+        center_text_no_args(
+            "linked list data presented below: {prefix: up to 4 letters} "
+            "{length: of word}\n\n\n");
         break;
       } else {
-        printf("there is no linked list data to present: \n");
+        center_text_no_args("there is no linked list data to present: \n");
         break;
       }
     }
@@ -523,11 +562,13 @@ printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK " length:\t " C
     // printf("a to add a word to the linked list data. prefix up to 4 letters
     // and length is saved\n"); printf("s to do a sensitive search. S for an
     // insensitive search\n"); printf("d to delete the list");
-    printf("a to add a word.s (insensitive) S (sensitive) search modes. d to "
-           "delete c to clear\n");
+    center_text_no_args(
+        "a to add a word. s (insensitive) S (sensitive) search modes. d to "
+        "delete c to clear\n");
     scanf(" %c", &list);
     if (list == 'a') {
-      printf("enter a word into the input to add it to the list please \n");
+      center_text_no_args(
+          "enter a word into the input to add it to the list please \n");
       // char sentence2[100];
       // fgets(sentence2, sizeof(sentence2), stdin);
       // scanf("%[^\n]s", sentence2);
@@ -536,7 +577,9 @@ printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK " length:\t " C
       scanf(" %[^\n]s", new2);
       int new_len = strlen(new2);
       add_word(new2, new_len);
-      printf("I Just printed %s \n \n", new2);
+      center_text_no_args("I Just printed:");
+      center_text_no_args(new2);
+      printf("\n");
 
       ch = 'G'; // surprised this works and validates while block
                 // printf ("G or g to Go again:\n");
@@ -544,25 +587,29 @@ printf("search" CYN " results" BLK " --- prefix:\t" CYN "%s" BLK " length:\t " C
     } else if (list == 'S') {
       // s || S
       char searchsentence[100];
-      printf("capitalization matters. search up to 4 letters please: \n");
+      center_text_no_args(
+          "capitalization matters. search up to 4 letters please: \n");
       // fgets(searchsentence, 4, stdin);
       scanf(" %[^\n]", searchsentence);
-      char *prefix = search_word(searchsentence, strlen(searchsentence));
+      printf("\n");
+      // char *prefix = search_word(searchsentence, strlen(searchsentence));
       // printf("My Returned Search Result: \t %s\n", prefix);
       head = &words[0];
       search_word(searchsentence, strlen(searchsentence));
-      printf("* * * * * * * search results above \n");
+      // center_text_no_args("* * * * * * * search results above \n");
       ch = 'G';
     } else if (list == 's') {
       char searchsentence2[100];
-      printf("capitalization doesnt matter its insensitive!!!!: \n");
+      center_text_no_args(
+          "capitalization doesnt matter its insensitive!!!!: \n");
       // fgets(searchsentence, 4, stdin);
       scanf(" %[^\n]", searchsentence2);
-      char *prefix = search_word(searchsentence2, strlen(searchsentence2));
+      printf("\n");
+      // char *prefix = search_word(searchsentence2, strlen(searchsentence2));
       // printf("My Returned Search Result: \t %s\n", prefix);
       head = &words[0];
       search_word_insensitive(searchsentence2, strlen(searchsentence2));
-
+      printf("\n");
       // char* my_search = search_word_insensitive(searchsentence2,
       // strlen(searchsentence2)); invoking cb and storing as pointer is causing
       // problem with loop on code line 369 printf("search characters: lets see
